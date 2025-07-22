@@ -1,0 +1,29 @@
+# 1. ディレクトリ構造
+```
+ProjectRoot: KabuKanri_App/apps/
+  |- build.gradle.kts
+  |- settings.gradle.kts
+  |- Application.kt
+  |- frontend/ ...  フロントエンド SPA/SSR（例: Next.js, React）
+    |- build.gradle.kts
+    |- src/main/kotlin/frontend/
+      |- frontendApplication.kt
+      |- controller/
+  |- backend/ ... APIサーバや認証、DBアクセスロジック
+  |- domain/ ... ドメインロジック（共通のビジネスロジックやユーティリティ）
+  |- stocks/ ... 株データ管理、分析・更新機能用モジュール
+  |- users/ ... ユーザー管理モジュール（認証・権限）
+  |- analytics/ ...  分析・グラフ化、バックグラウンドジョブ等
+  |- shared/ ... 型定義, APIクライアント, UIコンポーネント等フロント/バック共用
+  |- libs/ ... サードパーティライブラリ・自作Utility集
+  |- scripts/ ... データ移行、バッチ処理、自動デプロイやメンテンサークリプト
+  |- scripts/ ... 各種環境設定ファイル（DB, API Gateway, linter等）
+  |- docs/ ... 技術ドキュメント、API仕様等
+  |- tests/ ... 単体テスト・統合テスト等各種テスト用
+```
+
+* 特長とメリット
+  - 拡張性：新機能は packages に追加するだけで他モジュールに影響せず拡張が容易。
+  - 再利用性：共通処理やUI部品は shared で集中管理し、全体で再利用。
+  - テスト容易性：tests ディレクトリでモジュール横断のテストも管理可能。
+  - CI/CDや自動化との親和性：scripts・configs でビルド/デプロイ/テストも効率化。
