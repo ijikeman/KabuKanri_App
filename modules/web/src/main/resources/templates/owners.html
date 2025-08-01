@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="jp">
+    <head>
+        <meta charset="utf-8">
+        所有者リスト
+    </head>
+    <body>
+        <ul>
+            <!-- owner登録フォーム表示 -->
+            <form action="#" th:action="@{/owners}" th:object="${ownerForm}" method="post">
+                <li><input type="text" th:field="*{name}" /></li>
+                <li><input type="submit" value="登録" /></li>
+            </form>
+
+            <!-- owner list表示 -->
+            <li th:each="owner : ${owners}">
+                <span th:text="${owner.name}"></span>
+            </li>
+    </body>
+</html>
