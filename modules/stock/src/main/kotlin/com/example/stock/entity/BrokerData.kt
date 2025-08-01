@@ -1,4 +1,4 @@
-package com.example.stock
+package com.example.stock.entity
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
@@ -8,8 +8,8 @@ import jakarta.persistence.Id
 import jakarta.persistence.Column
 
 @Entity
-@Table(name = "broker_data")
-data class BrokerData(
+@Table(name = "brokers")
+data class Brokers(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int = 0,
