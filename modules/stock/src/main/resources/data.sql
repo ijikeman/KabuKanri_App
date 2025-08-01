@@ -1,5 +1,12 @@
+-- 所有者
+INSERT INTO owners(name) VALUES
+('Father'),
+('Mother'),
+('Brother'),
+('Sister');
+
 -- 証券会社
-INSERT INTO broker_data(name) VALUES
+INSERT INTO brokers(name) VALUES
 ('Monex'),
 ('SBI証券'),
 ('SBIネオトレード'),
@@ -7,15 +14,8 @@ INSERT INTO broker_data(name) VALUES
 ('UFJ'),
 ('au');
 
--- 所有者
-INSERT INTO owner_data(name) VALUES
-('Father'),
-('Mother'),
-('Brother'),
-('Sister');
-
 -- 銘柄種別
-INSERT INTO sector_data(name) VALUES
+INSERT INTO sectors(name) VALUES
 ('水産・農林業'),
 ('食料品'),
 ('鉱業'),
@@ -39,7 +39,3 @@ INSERT INTO sector_data(name) VALUES
 ('サービス業'),
 ('電気・ガス業'),
 ('陸運業');
-
--- 銘柄
-INSERT INTO security_data(code, name, country_code, sector_id) VALUES
-(3923, 'ラクス', 81, 20);
