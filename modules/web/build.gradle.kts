@@ -15,20 +15,21 @@ repositories {
 dependencies {
     // Webアプリケーション、JPAに必要な基本的な依存関係
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa") // webでも使う
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-
+ 
     // KotlinでEntityを使う場合に推奨される依存関係
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlin:kotlin-reflect") // webでは使わないため
 
     // `developmentOnly` を使うと、開発時(bootRun)のみ依存関係が追加されます
     // H2データベースドライバ
     developmentOnly("com.h2database:h2")
     // 開発時のホットリロードなどを有効にするDevTools
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    implementation("org.springframework.boot:spring-boot-devtools")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
+    implementation(project(":modules:stock")) // stockを有効にする
 }
 
 java {

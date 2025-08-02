@@ -4,22 +4,22 @@ ProjectRoot: KabuKanri_App/apps/
   |- build.gradle.kts
   |- settings.gradle.kts
   |- Application.kt
-  |- frontend/ ...  フロントエンド SPA/SSR（例: Next.js, React）
-    |- build.gradle.kts
-    |- src/main/kotlin/frontend/
-      |- frontendApplication.kt
-      |- controller/
-  |- backend/ ... APIサーバや認証、DBアクセスロジック
-  |- domain/ ... ドメインロジック（共通のビジネスロジックやユーティリティ）
-  |- stocks/ ... 株データ管理、分析・更新機能用モジュール
-  |- users/ ... ユーザー管理モジュール（認証・権限）
-  |- analytics/ ...  分析・グラフ化、バックグラウンドジョブ等
-  |- shared/ ... 型定義, APIクライアント, UIコンポーネント等フロント/バック共用
-  |- libs/ ... サードパーティライブラリ・自作Utility集
-  |- scripts/ ... データ移行、バッチ処理、自動デプロイやメンテンサークリプト
-  |- scripts/ ... 各種環境設定ファイル（DB, API Gateway, linter等）
-  |- docs/ ... 技術ドキュメント、API仕様等
-  |- tests/ ... 単体テスト・統合テスト等各種テスト用
+  |- modules
+    |- web/ ...  フロントエンド SPA/SSR（例: Next.js, React）
+      |- build.gradle.kts
+      |- Application.kt
+      |- src/main/kotlin/stock/
+        |- controller/
+    |- backend/ ... APIサーバや認証、DBアクセスロジック
+    |- domain/ ... ドメインロジック（共通のビジネスロジックやユーティリティ）
+    |- stocks/ ... 株データ管理、分析・更新機能用モジュール
+    |- users/ ... ユーザー管理モジュール（認証・権限）
+    |- analytics/ ...  分析・グラフ化、バックグラウンドジョブ等
+    |- shared/ ... 型定義, APIクライアント, UIコンポーネント等フロント/バック共用
+    |- libs/ ... サードパーティライブラリ・自作Utility集
+    |- scripts/ ... データ移行、バッチ処理、自動デプロイやメンテンサークリプト
+    |- docs/ ... 技術ドキュメント、API仕様等
+    |- tests/ ... 単体テスト・統合テスト等各種テスト用
 ```
 
 * 特長とメリット
