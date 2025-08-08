@@ -16,4 +16,9 @@ data class Owners(
 
     @Column(name = "name", nullable = false)
     val name: String
-)
+) {
+    init {
+        // nameが空文字や空白のみでないことを保証する
+        require(name.isNotBlank()) { "Name cannot be blank" }
+    }
+}

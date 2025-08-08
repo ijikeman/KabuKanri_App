@@ -20,6 +20,12 @@ dependencies {
 
     // KotlinでEntityを使う場合に推奨される依存関係
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.springframework.boot:spring-boot-starter-validation") // バリデーション
+
+    // Test
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    testImplementation("io.mockk:mockk:1.13.12")
 }
 
 java {
