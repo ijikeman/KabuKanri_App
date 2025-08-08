@@ -60,6 +60,22 @@ class StockController(
         return "redirect:/stocks"
     }
 
+    // 株式更新ページを表示するメソッド
+    @PostMapping("/stocks/updatePrice")
+    fun updatePrice(@RequestParam("selectedIds") selectedIds: List<Int>): String {
+        // selectedIds にはチェックされた銘柄コードのIDリストが格納されています。
+        if (selectedIds.isEmpty()) {
+            // チェックされた銘柄がない場合は、エラーメッセージを表示するか、適切な処理を行います。
+            throw IllegalArgumentException("No stocks selected for price update.")
+        } else {
+            // チェックされた銘柄コードをログに出力します。
+            println("Selected stock Ids for price update: $selectedIds")
+            // ここで株価更新のロジックを実装します。
+            stockService.updatePrices(selectedIds)
+        }
+        return "redirect:/stocks"
+    }
+
     // オーナー関連のメソッド
     @GetMapping("/owners")
     fun ownerList(model: Model): String {

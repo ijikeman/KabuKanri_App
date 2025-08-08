@@ -32,8 +32,8 @@ class StockService(
         return stockRepository.save(stock)
     }
 
-    // current_priceを更新する
-    fun updateCurrentPrice(id: Int): Stocks? {
+    // current_priceを1つだけ更新する
+    fun updatePrice(id: Int): Stocks? {
         val stock = stockRepository.findById(id)
         return if (stock.isPresent) {
             val newPrice = yahooFinanceProvider.fetchStockPrice(stock.get().code, stock.get().country)
@@ -45,6 +45,13 @@ class StockService(
             }
         } else {
             null
+        }
+    }
+
+    // 複数の銘柄のcurrent_priceを更新する(updatePriceを呼び出す)
+    fun updatePrices(ids: List<Int>) {
+        for (id in ids) {
+            updatePrice(id)
         }
     }
 
