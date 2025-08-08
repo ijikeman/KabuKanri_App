@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS stocks (
     code VARCHAR(16) NOT NULL UNIQUE,
     name VARCHAR(255) NOT NULL,
     country VARCHAR(16) NOT NULL,
+    current_price INT NOT NULL, -- 現在の株価
     sector_id INT NOT NULL, -- セクターID
     FOREIGN KEY(sector_id) REFERENCES sectors(id)
 );

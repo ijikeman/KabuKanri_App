@@ -26,6 +26,10 @@ data class Stocks(
     @Column(name = "country", nullable = false)
     val country: String,
 
+    // 現在の株価は更新があるため、nullableをfalseに設定
+    @Column(name = "current_price", nullable = false)
+    val current_price: Int = 0,
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sector_id", nullable = false)
     val sector_id: Sectors
