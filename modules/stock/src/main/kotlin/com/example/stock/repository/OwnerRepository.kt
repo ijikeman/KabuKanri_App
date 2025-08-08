@@ -1,6 +1,6 @@
 package com.example.stock.repository
 
-import com.example.stock.entity.Owners
+import com.example.stock.model.Owners
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

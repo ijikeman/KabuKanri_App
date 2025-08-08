@@ -27,12 +27,9 @@ WORKDIR /workspace
 # appuserユーザーを作成し、作業ディレクトリの権限を変更
 RUN useradd -m appuser && chown -R appuser:appuser /workspace
 
-# Install uvx
-RUN apt-get update && apt-get install -y pipx python3-all python-is-python3
-RUN apt-get update && apt-get install nodejs npm -y
-RUN npm install -g @google/gemini-cli
+# Install SQLite3
+RUN apt-get update && apt-get install -y sqlite3 libsqlite3-dev
 
 USER appuser
-RUN pipx ensurepath && pipx install uv
 
 CMD ["gradle", "--version"]

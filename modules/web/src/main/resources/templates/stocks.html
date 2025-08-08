@@ -1,0 +1,29 @@
+<!-- 所有する株式一覧を表示する -->
+<HTML>
+<head>
+    <title>所有銘柄一覧</title>
+</head>
+<body>
+    <h1>所有銘柄一覧</h1>
+    <table border="1">
+        <tr>
+            <th>銘柄コード</th>
+            <th>銘柄名</th>
+            <th>国名</th>
+        </tr>
+        <!-- ここに銘柄データを表示する -->
+
+        <!-- 銘柄データのループ -->
+        <!-- if emptyを使用して、銘柄がない場合のメッセージを表示 -->
+        <tr th:if="${#lists.isEmpty(stocks)}">
+            <td colspan="5">所有する銘柄がありません。</td>
+        </tr>
+        <tr th:each="stock : ${stocks}">
+            <td th:text="${stock.code}">1234</td>
+            <td th:text="${stock.name}">Example Stock</td>
+            <td th:text="${stock.country}">JP</td>
+        </tr>
+    </table>
+    <p><a href="/owners">所有者一覧に戻る</a></p>
+</body>
+</html>

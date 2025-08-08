@@ -1,4 +1,4 @@
-package com.example.stock.entity
+package com.example.stock.model
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Table

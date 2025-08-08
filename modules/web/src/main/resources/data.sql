@@ -16,8 +16,8 @@ INSERT INTO brokers(name) VALUES
 
 -- 銘柄種別
 INSERT INTO sectors(name) VALUES
-('水産・農林業'),
-('食料品'),
+('水産・農林業'), -- 1
+('食品'),
 ('鉱業'),
 ('石油・石炭製品'),
 ('建設業'),
@@ -39,3 +39,8 @@ INSERT INTO sectors(name) VALUES
 ('サービス業'),
 ('電気・ガス業'),
 ('陸運業');
+
+-- 銘柄
+INSERT INTO stocks(code, name, country, sector_id) VALUES
+('0001', 'トヨタ自動車', 'jp', 13),
+('0005', 'キーエンス', 'jp', 18);

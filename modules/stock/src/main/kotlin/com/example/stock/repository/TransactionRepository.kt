@@ -1,6 +1,6 @@
 package com.example.stock.repository
 
-import com.example.stock.entity.Transactions
+import com.example.stock.model.Transactions
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

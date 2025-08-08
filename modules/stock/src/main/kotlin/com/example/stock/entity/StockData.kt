@@ -1,4 +1,4 @@
-package com.example.stock.entity
+package com.example.stock.model
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
@@ -18,9 +18,9 @@ data class Stocks(
     val id: Int = 0,
 
     @Column(name = "code", nullable = false, unique = true)
-    val code: Int,
+    val code: String,
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     val name: String,
 
     @Column(name = "country", nullable = false)
@@ -28,7 +28,7 @@ data class Stocks(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sector_id", nullable = false)
-    val sector: Sectors
+    val sector_id: Sectors
 )
 /* 
 -- 銘柄テーブル

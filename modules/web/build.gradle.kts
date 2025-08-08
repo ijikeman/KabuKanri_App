@@ -19,13 +19,17 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
  
     // KotlinでEntityを使う場合に推奨される依存関係
-    implementation("org.jetbrains.kotlin:kotlin-reflect") // webでは使わないため
+    // implementation("org.jetbrains.kotlin:kotlin-reflect") // webでは使わないため
 
     // `developmentOnly` を使うと、開発時(bootRun)のみ依存関係が追加されます
-    // H2データベースドライバ
-    developmentOnly("com.h2database:h2")
     // 開発時のホットリロードなどを有効にするDevTools
     implementation("org.springframework.boot:spring-boot-devtools")
+
+    // 本番環境用: SQLite JDBCドライバ
+    runtimeOnly("org.xerial:sqlite-jdbc")
+    implementation("org.hibernate.orm:hibernate-community-dialects")
+    // 開発環境用: H2データベースドライバ
+    runtimeOnly("com.h2database:h2")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
