@@ -1,6 +1,6 @@
 ```mermaid
 erDiagram
-    owners {
+    owner {
         UUID id PK "オーナーID"
         string name "所有株式に使用する一意のオーナー名"
     }
@@ -58,8 +58,8 @@ erDiagram
         timestamp updated_at "最終更新日時"
     }
 
-    owners ||--o{ holdings : "保有する"
-    owners ||--o{ transactions : "取引する"
+    owner ||--o{ holdings : "保有する"
+    owner ||--o{ transactions : "取引する"
     stocks ||--o{ transactions : "取引対象"
     stocks ||--o{ holdings : "保有対象"
     stocks ||--o{ dividend_and_preferentials : "取引対象"

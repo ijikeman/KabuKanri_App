@@ -20,7 +20,7 @@ data class Transactions(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
-    val owner: Owners,
+    val owner: Owner,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stock_id", nullable = false)
@@ -57,7 +57,7 @@ CREATE TABLE transactions (
     quantity INT NOT NULL, -- 取引株数
     fee INT NOT NULL, -- 取引手数料
     transaction_at DATE, -- 取引日
-    FOREIGN KEY(owner_id) REFERENCES owners(id),
+    FOREIGN KEY(owner_id) REFERENCES owner(id),
     FOREIGN KEY(stock_id) REFERENCES stocks(id),
     FOREIGN KEY(broker_id) REFERENCES brokers(id)
 );

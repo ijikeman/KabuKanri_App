@@ -1,6 +1,6 @@
 package com.example.stock.controller
 
-import com.example.stock.model.Owners
+import com.example.stock.model.Owner
 import com.example.stock.service.OwnerService
 import org.springframework.stereotype.Controller
 import com.example.stock.model.Stocks
@@ -77,19 +77,19 @@ class StockController(
     }
 
     // オーナー関連のメソッド
-    @GetMapping("/owners")
+    @GetMapping("/owner")
     fun ownerList(model: Model): String {
-        val owners = ownerService.findAll()
-        model.addAttribute("owners", owners)
-        return "owners"
+        val owner = ownerService.findAll()
+        model.addAttribute("owner", owner)
+        return "owner"
     }
 
-    @PostMapping("/owners")
+    @PostMapping("/owner")
     fun ownerRegister(@RequestParam name: String): String {
-        val owner = Owners(name = name)
+        val owner = Owner(name = name)
         ownerService.save(owner)
         // 保存後、一覧画面にリダイレクトします。
-        return "redirect:/owners"
+        return "redirect:/owner"
     }
 
     @GetMapping("/brokers")

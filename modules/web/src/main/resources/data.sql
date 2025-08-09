@@ -1,5 +1,5 @@
 -- 所有者
-INSERT INTO owners(name) VALUES
+INSERT INTO owner(name) VALUES
 ('Father'),
 ('Mother'),
 ('Brother'),

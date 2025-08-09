@@ -15,4 +15,13 @@ subprojects {
             mavenBom("org.springframework.boot:spring-boot-dependencies:3.5.3")
         }
     }
+
+    tasks.withType<Test> {
+        useJUnitPlatform()
+        testLogging {
+            events("started", "passed", "skipped", "failed")
+            showStandardStreams = true
+            exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+        }
+    }
 }
