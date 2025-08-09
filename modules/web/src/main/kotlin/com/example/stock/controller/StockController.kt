@@ -62,16 +62,21 @@ class StockController(
 
     // 株式更新ページを表示するメソッド
     @PostMapping("/stock/updatePrice")
-    fun updatePrice(@RequestParam("selectedIds") selectedIds: List<Int>): String {
+    fun updatePrice(
+        model: Model,
+        @RequestParam("selectedIds", required = false) selectedIds: List<Int>?
+    ): String {
+        val ids = selectedIds ?: emptyList()
         // selectedIds にはチェックされた銘柄コードのIDリストが格納されています。
-        if (selectedIds.isEmpty()) {
-            // チェックされた銘柄がない場合は、エラーメッセージを表示するか、適切な処理を行います。
-            throw IllegalArgumentException("No stock selected for price update.")
+        if (ids.isEmpty()) {
+            // チェックされた銘柄がない場合は、画面にエラーメッセージを表示する為、error_massage attributeを設定する
+            model.addAttribute("errorMessage", "更新する銘柄が選択されていません。")
+            return "redirect:/stock" // stock.html に戻る
         } else {
             // チェックされた銘柄コードをログに出力します。
-            println("Selected stock Ids for price update: $selectedIds")
+            println("Selected stock Ids for price update: $ids")
             // ここで株価更新のロジックを実装します。
-            stockService.updatePrices(selectedIds)
+            stockService.updatePrices(ids)
         }
         return "redirect:/stock"
     }

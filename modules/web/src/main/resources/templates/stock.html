@@ -17,6 +17,11 @@
                 </tr>
             </thead>
             <tbody>
+            <!-- if errorMessageが定義されていれば赤で表示する -->
+            <tr th:if="${errorMessage != null}">
+                <td colspan="5" style="color: red;" th:text="${errorMessage}"></td>
+            </tr>
+
             <!-- if emptyを使用して、銘柄がない場合のメッセージを表示 -->
             <tr th:if="${#lists.isEmpty(stock)}">
                 <td colspan="4">所有する銘柄がありません。</td>
