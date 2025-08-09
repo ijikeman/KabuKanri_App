@@ -8,8 +8,8 @@ import jakarta.persistence.Id
 import jakarta.persistence.Column
 
 @Entity
-@Table(name = "brokers")
-data class Brokers(
+@Table(name = "broker")
+data class Broker(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int = 0,

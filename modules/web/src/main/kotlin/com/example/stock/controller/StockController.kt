@@ -3,8 +3,8 @@ package com.example.stock.controller
 import com.example.stock.model.Owner
 import com.example.stock.service.OwnerService
 import org.springframework.stereotype.Controller
-import com.example.stock.model.Stocks
-import com.example.stock.model.Sectors
+import com.example.stock.model.Stock
+import com.example.stock.model.Sector
 import com.example.stock.service.StockService
 import com.example.stock.service.SectorService
 import org.springframework.ui.Model
@@ -19,21 +19,21 @@ class StockController(
     private val sectorService: SectorService // ここでSectorServiceをインジェクトします
 ) {
     // 株式一覧ページを表示するメソッド
-    @GetMapping("/stocks")
+    @GetMapping("/stock")
     fun stockList(model: Model): String {
         // ここで株式のデータを取得し、モデルに追加します。
         // 例えば、株式のリストを取得するサービスを呼び出す
-        model.addAttribute("stocks", stockService.findAll())
-        return "stocks"
+        model.addAttribute("stock", stockService.findAll())
+        return "stock"
     }
     // 株式登録ページを表示するメソッド
-    @GetMapping("/stocks/register")
+    @GetMapping("/stock/register")
     fun stockRegisterForm(): String {
         // 株式登録フォームを表示するためのビュー名を返します。
         return "stockRegister"
     }
     // 株式登録処理を行うメソッド
-    @PostMapping("/stocks/register")
+    @PostMapping("/stock/register")
     fun stockRegister(
         @RequestParam code: String,
         @RequestParam name: String,
@@ -47,9 +47,9 @@ class StockController(
             // セクターが見つからない場合は、エラーメッセージを表示するか、適切な処理を行います。
             throw IllegalArgumentException("Sector not found: $sector_name")
         }
-        // Stocksオブジェクトを作成し、StockServiceを使って保存します        
+        // Stockオブジェクトを作成し、StockServiceを使って保存します        
         stockService.save(
-            Stocks(
+            Stock(
                 code = code,
                 name = name,
                 country = country,
@@ -57,23 +57,23 @@ class StockController(
             )
         )
         // 保存後、株式一覧画面にリダイレクトします。
-        return "redirect:/stocks"
+        return "redirect:/stock"
     }
 
     // 株式更新ページを表示するメソッド
-    @PostMapping("/stocks/updatePrice")
+    @PostMapping("/stock/updatePrice")
     fun updatePrice(@RequestParam("selectedIds") selectedIds: List<Int>): String {
         // selectedIds にはチェックされた銘柄コードのIDリストが格納されています。
         if (selectedIds.isEmpty()) {
             // チェックされた銘柄がない場合は、エラーメッセージを表示するか、適切な処理を行います。
-            throw IllegalArgumentException("No stocks selected for price update.")
+            throw IllegalArgumentException("No stock selected for price update.")
         } else {
             // チェックされた銘柄コードをログに出力します。
             println("Selected stock Ids for price update: $selectedIds")
             // ここで株価更新のロジックを実装します。
             stockService.updatePrices(selectedIds)
         }
-        return "redirect:/stocks"
+        return "redirect:/stock"
     }
 
     // オーナー関連のメソッド
@@ -92,23 +92,23 @@ class StockController(
         return "redirect:/owner"
     }
 
-    @GetMapping("/brokers")
+    @GetMapping("/broker")
     fun brokerList(): String {
-        return "brokers"
+        return "broker"
     }
 
-    @PostMapping("/brokers")
+    @PostMapping("/broker")
     fun brokerRegister(): String {
-        return "redirect:/brokers"
+        return "redirect:/broker"
     }
 
-    @GetMapping("/sectors")
+    @GetMapping("/sector")
     fun sectorList(): String {
-        return "sectors"
+        return "sector"
     }
 
-    @PostMapping("/sectors")
+    @PostMapping("/sector")
     fun sectorRegister(): String {
-        return "redirect:/sectors"
+        return "redirect:/sector"
     }
 }

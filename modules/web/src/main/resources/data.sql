@@ -6,7 +6,7 @@ INSERT INTO owner(name) VALUES
 ('Sister');
 
 -- 証券会社
-INSERT INTO brokers(name) VALUES
+INSERT INTO broker(name) VALUES
 ('Monex'),
 ('SBI証券'),
 ('SBIネオトレード'),
@@ -15,7 +15,7 @@ INSERT INTO brokers(name) VALUES
 ('au');
 
 -- 銘柄種別
-INSERT INTO sectors(name) VALUES
+INSERT INTO sector(name) VALUES
 ('水産・農林業'), -- 1
 ('食品'),
 ('鉱業'),
@@ -41,6 +41,6 @@ INSERT INTO sectors(name) VALUES
 ('陸運業');
 
 -- 銘柄
-INSERT INTO stocks(code, name, country, current_price, sector_id) VALUES
+INSERT INTO stock(code, name, country, current_price, sector_id) VALUES
 ('0001', 'トヨタ自動車', 'jp', 0, 13),
 ('0005', 'キーエンス', 'jp', 0, 18);

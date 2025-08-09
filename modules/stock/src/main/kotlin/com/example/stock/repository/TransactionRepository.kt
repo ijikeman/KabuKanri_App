@@ -1,10 +1,10 @@
 package com.example.stock.repository
 
-import com.example.stock.model.Transactions
+import com.example.stock.model.Transaction
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface TransactionRepository : JpaRepository<Transactions, Int> {
-    fun findByStockId(stockId: Int): List<Transactions>
+interface TransactionRepository : JpaRepository<Transaction, Int> {
+    fun findByStockId(stockId: Int): List<Transaction>
 }

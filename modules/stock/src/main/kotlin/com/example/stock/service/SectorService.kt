@@ -1,20 +1,20 @@
 package com.example.stock.service
-import com.example.stock.model.Stocks
-import com.example.stock.model.Sectors
+import com.example.stock.model.Stock
+import com.example.stock.model.Sector
 import com.example.stock.repository.SectorRepository
 import org.springframework.stereotype.Service
 
 @Service
 class SectorService(private val sectorRepository: SectorRepository) {
-    fun findById(id: Int): Sectors? {
+    fun findById(id: Int): Sector? {
         return sectorRepository.findById(id).orElse(null)
     }
     
-    fun findAll(): List<Sectors> {
+    fun findAll(): List<Sector> {
         return sectorRepository.findAll()
     }
 
-    fun findByName(name: String): Sectors? {
+    fun findByName(name: String): Sector? {
         return sectorRepository.findByName(name)
     }
 }

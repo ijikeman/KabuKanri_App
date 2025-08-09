@@ -1,6 +1,6 @@
 package com.example.stock.provider
 
-import com.example.stock.model.Stocks
+import com.example.stock.model.Stock
 import org.springframework.stereotype.Component
 
 @Component

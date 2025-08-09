@@ -15,18 +15,18 @@ class StockDataTest {
         validator = factory.validator
     }
 
-    // Sectorsエンティティのテスト用データ
-    val sector = Sectors(
+    // Sectorエンティティのテスト用データ
+    val sector = Sector(
         id = 1,
         name = "Software"
     )
 
-    val stock = Stocks(
+    val stock = Stock(
         id = 1,
         name = "Test Stock",
         code = "1234",
         country = "jp",
-        sector_id = sector, // Sectorsエンティティを参照
+        sector_id = sector, // Sectorエンティティを参照
         current_price = 1000,
     )
 

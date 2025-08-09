@@ -15,8 +15,8 @@ import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.NotBlank
 
 @Entity
-@Table(name = "stocks")
-data class Stocks(
+@Table(name = "stock")
+data class Stock(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int = 0,
@@ -43,5 +43,5 @@ data class Stocks(
     @field:NotNull(message = "sector_idは必須です")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sector_id", nullable = false)
-    val sector_id: Sectors
+    val sector_id: Sector
 )

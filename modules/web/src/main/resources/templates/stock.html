@@ -5,7 +5,7 @@
 </head>
 <body>
     <h1>所有銘柄一覧</h1>
-    <form th:action="@{/stocks/updatePrice}" method="post">
+    <form th:action="@{/stock/updatePrice}" method="post">
         <table border="1">
             <thead>
                 <tr>
@@ -18,11 +18,11 @@
             </thead>
             <tbody>
             <!-- if emptyを使用して、銘柄がない場合のメッセージを表示 -->
-            <tr th:if="${#lists.isEmpty(stocks)}">
+            <tr th:if="${#lists.isEmpty(stock)}">
                 <td colspan="4">所有する銘柄がありません。</td>
             </tr>
             <!-- 銘柄データのループ -->
-            <tr th:each="stock : ${stocks}">
+            <tr th:each="stock : ${stock}">
                 <td><input type="checkbox" name="selectedIds" th:value="${stock.id}" /></td>
                 <td th:text="${stock.code}">1234</td>
                 <td th:text="${stock.name}">Example Stock</td>
@@ -31,7 +31,7 @@
             </tr>
             </tbody>
         </table>
-        <input type="submit" value="株価更新" th:if="${not #lists.isEmpty(stocks)}" />
+        <input type="submit" value="株価更新" th:if="${not #lists.isEmpty(stock)}" />
     </form>
     <p><a href="/owner">所有者一覧に戻る</a></p>
 </body>

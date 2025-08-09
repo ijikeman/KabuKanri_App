@@ -5,17 +5,17 @@ erDiagram
         string name "所有株式に使用する一意のオーナー名"
     }
 
-    sectors {
+    sector {
         UUID id PK "セクターID"
         string name "セクター名(例:IT、金融、製造業)"
     }
 
-    brokers {
+    broker {
         UUID id PK "証券会社ID"
         string name "証券会社名"
     }
 
-    stocks {
+    stock {
         UUID id PK "銘柄ID"
         string code "銘柄を一意に識別するコード(例:9984, AAPL)"
         string name "銘柄名"
@@ -26,7 +26,7 @@ erDiagram
         timestamp updated_at "最終更新日時"
     }
 
-    transactions {
+    transaction {
         UUID id PK "取引ID"
         UUID owner_id FK "取引を行ったユーザーID"
         UUID stock_id FK "取引対象の銘柄ID"
@@ -59,10 +59,10 @@ erDiagram
     }
 
     owner ||--o{ holdings : "保有する"
-    owner ||--o{ transactions : "取引する"
-    stocks ||--o{ transactions : "取引対象"
-    stocks ||--o{ holdings : "保有対象"
-    stocks ||--o{ dividend_and_preferentials : "取引対象"
-    sectors ||--o{ stocks : "属する"
-    brokers ||--o{ transactions : "属する"
+    owner ||--o{ transaction : "取引する"
+    stock ||--o{ transaction : "取引対象"
+    stock ||--o{ holdings : "保有対象"
+    stock ||--o{ dividend_and_preferentials : "取引対象"
+    sector ||--o{ stock : "属する"
+    broker ||--o{ transaction : "属する"
 ```
