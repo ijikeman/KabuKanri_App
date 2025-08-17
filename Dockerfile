@@ -36,5 +36,5 @@ COPY --from=builder /workspace/modules/web/build/libs/*.jar ./application.jar
 # Expose the application port
 EXPOSE 8080
 
-# Run the application with the "prod" profile
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "./application.jar"]
+# Run the application
+ENTRYPOINT ["java", "-jar", "./application.jar"]
