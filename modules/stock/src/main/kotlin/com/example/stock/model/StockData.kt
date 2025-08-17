@@ -13,6 +13,8 @@ import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.NotBlank
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "stock")
@@ -35,10 +37,18 @@ data class Stock(
     @Column(name = "country", nullable = false)
     val country: String,
 
-    // 現在の株価は更新があるため、nullableをfalseに設定
     @field:Min(0, message = "current_priceは0以上の数字である必要があります")
-    @Column(name = "current_price", nullable = false)
-    val current_price: Int = 0,
+    @Column(name = "current_price")
+    val current_price: Int? = null,
+
+    @Column(name = "latest_dividend")
+    val latestDividend: Double? = null,
+
+    @Column(name = "earnings_date")
+    val earningsDate: LocalDate? = null,
+
+    @Column(name = "last_updated")
+    val lastUpdated: LocalDateTime? = null,
 
     @field:NotNull(message = "sector_idは必須です")
     @ManyToOne(fetch = FetchType.LAZY)

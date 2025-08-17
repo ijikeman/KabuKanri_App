@@ -1,8 +1,10 @@
 package com.example.stock.service
+
 import com.example.stock.model.Stock
 import com.example.stock.repository.StockRepository
 import com.example.stock.provider.YahooFinanceProvider
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 import java.util.*
 
@@ -32,26 +34,46 @@ class StockService(
         return stockRepository.save(stock)
     }
 
-    // current_priceを1つだけ更新する
-    fun updatePrice(id: Int): Stock? {
-        val stock = stockRepository.findById(id)
-        return if (stock.isPresent) {
-            val newPrice = yahooFinanceProvider.fetchStockPrice(stock.get().code, stock.get().country)
-            if (newPrice != null) {
-                val updatedStock = stock.get().copy(current_price = newPrice)
-                stockRepository.save(updatedStock)
-            } else {
-                null
-            }
+    /**
+     * 指定されたIDの銘柄情報を更新します。
+     * YahooFinanceProviderを使用して最新の情報を取得し、データベースを更新します。
+     * @param id 更新する銘柄のID
+     * @return 更新後の銘柄情報。銘柄が見つからない場合や情報取得に失敗した場合はnull。
+     */
+    fun updateStockDetail(id: Int): Stock? {
+        // IDで銘柄を検索
+        val stockOptional = stockRepository.findById(id)
+        if (!stockOptional.isPresent) {
+            return null // 銘柄が見つからない場合はnullを返す
+        }
+
+        val stock = stockOptional.get()
+
+        // プロバイダーから最新の財務情報を取得
+        val stockInfo = yahooFinanceProvider.fetchStockInfo(stock.code, stock.country)
+
+        return if (stockInfo != null) {
+            // 取得した情報でStockエンティティを更新
+            val updatedStock = stock.copy(
+                current_price = stockInfo.price,
+                latestDividend = stockInfo.dividend,
+                earningsDate = stockInfo.earningsDate,
+                lastUpdated = LocalDateTime.now() // 最終更新日時を現在時刻に設定
+            )
+            // 更新したエンティティを保存
+            stockRepository.save(updatedStock)
         } else {
-            null
+            null // 情報取得に失敗した場合はnullを返す
         }
     }
 
-    // 複数の銘柄のcurrent_priceを更新する(updatePriceを呼び出す)
-    fun updatePrices(ids: List<Int>) {
+   /**
+     * 複数の銘柄情報を一度に更新します。
+     * @param ids 更新する銘柄のIDリスト
+     */
+    fun updateStockDetails(ids: List<Int>) {
         for (id in ids) {
-            updatePrice(id)
+            updateStockDetail(id)
         }
     }
 

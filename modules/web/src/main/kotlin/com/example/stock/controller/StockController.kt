@@ -11,6 +11,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
 class StockController(
@@ -61,22 +62,23 @@ class StockController(
     }
 
     // 株式更新ページを表示するメソッド
-    @PostMapping("/stock/updatePrice")
+    @PostMapping("/stock/update")
     fun updatePrice(
-        model: Model,
+        redirectAttributes: RedirectAttributes, // Modelだとredirectの時にattributeは渡されないため、redirectAttributesに変更
         @RequestParam("selectedIds", required = false) selectedIds: List<Int>?
     ): String {
         val ids = selectedIds ?: emptyList()
         // selectedIds にはチェックされた銘柄コードのIDリストが格納されています。
         if (ids.isEmpty()) {
+            println("Selected stock Ids for update: $ids")
             // チェックされた銘柄がない場合は、画面にエラーメッセージを表示する為、error_massage attributeを設定する
-            model.addAttribute("errorMessage", "更新する銘柄が選択されていません。")
+            redirectAttributes.addFlashAttribute("errorMessage", "更新する銘柄が選択されていません。") // model.addAttributeではredirectの時パラメータは渡されない
             return "redirect:/stock" // stock.html に戻る
         } else {
             // チェックされた銘柄コードをログに出力します。
-            println("Selected stock Ids for price update: $ids")
+            println("Selected stock Ids for update: $ids")
             // ここで株価更新のロジックを実装します。
-            stockService.updatePrices(ids)
+            stockService.updateStockDetails(ids)
         }
         return "redirect:/stock"
     }

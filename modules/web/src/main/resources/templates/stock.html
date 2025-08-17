@@ -5,39 +5,46 @@
 </head>
 <body>
     <h1>所有銘柄一覧</h1>
-    <form th:action="@{/stock/updatePrice}" method="post">
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>チェック</th>
-                    <th>銘柄コード</th>
-                    <th>銘柄名</th>
-                    <th>国名</th>
-                    <th>現在の株価</th>
-                </tr>
-            </thead>
-            <tbody>
-            <!-- if errorMessageが定義されていれば赤で表示する -->
-            <tr th:if="${errorMessage != null}">
-                <td colspan="5" style="color: red;" th:text="${errorMessage}"></td>
-            </tr>
+    
+    <!-- if errorMessageが定義されていれば赤で表示する -->
+    <p th:if="${errorMessage != null}" style="color: red;" th:text="${errorMessage}"></p>
 
+    <table border="1">
+        <thead>
+            <tr>
+                <th>銘柄コード</th>
+                <th>銘柄名</th>
+                <th>国名</th>
+                <th>現在の株価</th>
+                <th>最新配当(円)</th>
+                <th>業績発表日</th>
+                <th>最終更新日時</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
             <!-- if emptyを使用して、銘柄がない場合のメッセージを表示 -->
             <tr th:if="${#lists.isEmpty(stock)}">
-                <td colspan="4">所有する銘柄がありません。</td>
+                <td colspan="8">所有する銘柄がありません。</td>
             </tr>
             <!-- 銘柄データのループ -->
             <tr th:each="stock : ${stock}">
-                <td><input type="checkbox" name="selectedIds" th:value="${stock.id}" /></td>
-                <td th:text="${stock.code}">1234</td>
-                <td th:text="${stock.name}">Example Stock</td>
-                <td th:text="${stock.country}">JP</td>
-                <td th:text="${stock.current_price}">1000</td>
+                <td th:text="${stock.code}">7203</td>
+                <td th:text="${stock.name}">トヨタ自動車</td>
+                <td th:text="${stock.country}">jp</td>
+                <td th:text="${stock.current_price != null} ? ${#numbers.formatInteger(stock.current_price, 3, 'COMMA')} : ' - '">1,000</td>
+                <td th:text="${stock.latestDividend != null} ? ${#numbers.formatDecimal(stock.latestDividend, 1, 2)} : ' - '">95.00</td>
+                <td th:text="${stock.earningsDate != null} ? ${#temporals.format(stock.earningsDate, 'yyyy/MM/dd')} : ' - '">2025/08/07</td>
+                <td th:text="${stock.lastUpdated != null} ? ${#temporals.format(stock.lastUpdated, 'yyyy/MM/dd HH:mm')} : ' - '">2025/08/15 15:00</td>
+                <td>
+                    <form th:action="@{/stock/update}" method="post" style="display:inline;">
+                        <input type="hidden" name="selectedIds" th:value="${stock.id}" />
+                        <input type="submit" value="更新" />
+                    </form>
+                </td>
             </tr>
-            </tbody>
-        </table>
-        <input type="submit" value="株価更新" th:if="${not #lists.isEmpty(stock)}" />
-    </form>
+        </tbody>
+    </table>
     <p><a href="/owner">所有者一覧に戻る</a></p>
 </body>
 </html>

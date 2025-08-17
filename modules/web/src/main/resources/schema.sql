@@ -22,7 +22,10 @@ CREATE TABLE IF NOT EXISTS stock (
     code VARCHAR(16) NOT NULL UNIQUE,
     name VARCHAR(255) NOT NULL,
     country VARCHAR(16) NOT NULL,
-    current_price INT NOT NULL, -- 現在の株価
+    current_price INT, -- 現在の株価
+    latest_dividend REAL, -- 最新の配当金
+    earnings_date TEXT, -- 業績発表日
+    last_updated TEXT, -- 最終更新日時
     sector_id INT NOT NULL, -- セクターID
     FOREIGN KEY(sector_id) REFERENCES sector(id)
 );

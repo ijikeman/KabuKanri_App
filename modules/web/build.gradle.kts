@@ -17,6 +17,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa") // webでも使う
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
  
     // KotlinでEntityを使う場合に推奨される依存関係
     // implementation("org.jetbrains.kotlin:kotlin-reflect") // webでは使わないため

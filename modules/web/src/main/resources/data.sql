@@ -41,6 +41,6 @@ INSERT INTO sector(name) VALUES
 ('陸運業');
 
 -- 銘柄
-INSERT INTO stock(code, name, country, current_price, sector_id) VALUES
-('0001', 'トヨタ自動車', 'jp', 0, 13),
-('0005', 'キーエンス', 'jp', 0, 18);
+INSERT INTO stock(code, name, country, current_price, latest_dividend, earnings_date, last_updated, sector_id) VALUES
+('7203', 'トヨタ自動車', 'jp', NULL, NULL, NULL, NULL, 13),
+('6861', 'キーエンス', 'jp', NULL, NULL, NULL, NULL, 17);
