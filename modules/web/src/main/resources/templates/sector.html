@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="jp" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>セクターリスト</title>
+</head>
+<body>
+    <div style="display: flex; gap: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px; margin-bottom: 20px;">
+        <a href="/stock">銘柄マスタ一覧</a>
+        <a href="/owner">所有者一覧</a>
+        <a href="/holdings">ポートフォリオ</a>
+    </div>
+    <h1>セクター登録</h1>
+    <form th:action="@{/sector}" method="post">
+        Name: <input type="text" name="name" placeholder="セクター名"/>
+        <input type="submit" value="登録" />
+    </form>
+
+    <hr/>
+
+    <h2>セクター一覧</h2>
+    <div th:if="${sectors != null and not #lists.isEmpty(sectors)}">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>名前</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="sector : ${sectors}">
+                    <td th:text="${sector.id}">1</td>
+                    <td th:text="${sector.name}">IT</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${sectors == null or #lists.isEmpty(sectors)}">
+        <p>セクターはまだ登録されていません。</p>
+    </div>
+</body>
+</html>

@@ -4,6 +4,11 @@
     <title>所有銘柄一覧</title>
 </head>
 <body>
+    <div style="display: flex; gap: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px; margin-bottom: 20px;">
+        <a href="/stock">銘柄マスタ一覧</a>
+        <a href="/owner">所有者一覧</a>
+        <a href="/holdings">ポートフォリオ</a>
+    </div>
     <h1>所有銘柄一覧</h1>
 
     <!-- if errorMessageが定義されていれば赤で表示する -->
@@ -43,6 +48,5 @@
         </table>
         <input type="submit" value="選択した銘柄を更新" th:if="${not #lists.isEmpty(stock)}" />
     </form>
-    <p><a href="/owner">所有者一覧に戻る</a></p>
 </body>
 </html>

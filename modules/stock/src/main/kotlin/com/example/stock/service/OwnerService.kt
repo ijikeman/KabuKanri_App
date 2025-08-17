@@ -14,6 +14,15 @@ class OwnerService(private val ownerRepository: OwnerRepository) {
         return ownerRepository.findByName(name)
     }
 
+    /**
+     * IDに基づいて所有者を検索します。
+     * @param id 検索する所有者のID
+     * @return 見つかった所有者。存在しない場合はnull。
+     */
+    fun findById(id: Int): Owner? {
+        return ownerRepository.findById(id).orElse(null)
+    }
+
     // 追加する
     fun save(owner: Owner): Owner {
         return ownerRepository.save(owner)

@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>株式売却</title>
+</head>
+<body>
+    <h1>株式売却</h1>
+
+    <div th:if="${holding != null}">
+        <h2>売却銘柄情報</h2>
+        <p><strong>銘柄:</strong> <span th:text="${holding.stock.name}"></span> (<span th:text="${holding.stock.code}"></span>)</p>
+        <p><strong>保有数量:</strong> <span th:text="${holding.quantity}"></span></p>
+    </div>
+
+    <form th:action="@{/transaction/sell}" method="post">
+        <input type="hidden" name="holdingId" th:value="${holding.id}" />
+
+        <div>
+            <label for="brokerId">証券会社:</label>
+            <select id="brokerId" name="brokerId" required>
+                <option value="">-- 選択してください --</option>
+                <option th:each="broker : ${brokers}"
+                        th:value="${broker.id}"
+                        th:text="${broker.name}">
+                </option>
+            </select>
+        </div>
+        <div>
+            <label for="quantity">数量:</label>
+            <input type="number" id="quantity" name="quantity" required min="1" th:max="${holding.quantity}">
+        </div>
+        <div>
+            <label for="pricePerShare">株価:</label>
+            <input type="number" id="pricePerShare" name="pricePerShare" required min="0" step="any">
+        </div>
+        <div>
+            <label for="fee">手数料:</label>
+            <input type="number" id="fee" name="fee" required min="0">
+        </div>
+        <div>
+            <label for="transactionAt">取引日:</label>
+            <input type="date" id="transactionAt" name="transactionAt" th:value="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}" required>
+        </div>
+        <div>
+            <button type="submit">売却を記録</button>
+        </div>
+    </form>
+
+    <p><a th:href="@{/holdings(ownerId=${holding.owner.id})}">ポートフォリオに戻る</a></p>
+</body>
+</html>

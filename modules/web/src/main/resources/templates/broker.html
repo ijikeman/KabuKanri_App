@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="jp" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>証券会社リスト</title>
+</head>
+<body>
+    <div style="display: flex; gap: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px; margin-bottom: 20px;">
+        <a href="/stock">銘柄マスタ一覧</a>
+        <a href="/owner">所有者一覧</a>
+        <a href="/holdings">ポートフォリオ</a>
+    </div>
+    <h1>証券会社登録</h1>
+    <form th:action="@{/broker}" method="post">
+        Name: <input type="text" name="name" placeholder="証券会社名"/>
+        <input type="submit" value="登録" />
+    </form>
+
+    <hr/>
+
+    <h2>証券会社一覧</h2>
+    <div th:if="${brokers != null and not #lists.isEmpty(brokers)}">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>名前</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="broker : ${brokers}">
+                    <td th:text="${broker.id}">1</td>
+                    <td th:text="${broker.name}">SBI証券</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${brokers == null or #lists.isEmpty(brokers)}">
+        <p>証券会社はまだ登録されていません。</p>
+    </div>
+</body>
+</html>

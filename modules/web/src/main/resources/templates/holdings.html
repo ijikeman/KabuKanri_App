@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ポートフォリオ一覧</title>
+</head>
+<body>
+    <div style="display: flex; gap: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px; margin-bottom: 20px;">
+        <a href="/stock">銘柄マスタ一覧</a>
+        <a href="/owner">所有者一覧</a>
+        <a href="/holdings">ポートフォリオ</a>
+    </div>
+    <h1>ポートフォリオ一覧</h1>
+
+    <!-- Owner Selection Form -->
+    <form th:action="@{/holdings}" method="get">
+        <label for="ownerId">所有者を選択:</label>
+        <select id="ownerId" name="ownerId" onchange="this.form.submit()">
+            <option value="">-- 選択してください --</option>
+            <option th:each="owner : ${owners}"
+                    th:value="${owner.id}"
+                    th:text="${owner.name}"
+                    th:selected="${owner.id == selectedOwnerId}">
+                Owner Name
+            </option>
+        </select>
+    </form>
+
+    <div th:if="${selectedOwnerId != null}">
+        <h2><span th:text="${owners.?[id == selectedOwnerId][0].name}">Owner</span>のポートフォリオ</h2>
+        <a th:href="@{/transaction/buy(ownerId=${selectedOwnerId})}">
+            <button>この所有者で株式を購入</button>
+        </a>
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>銘柄名</th>
+                    <th>証券コード</th>
+                    <th>保有株数</th>
+                    <th>平均取得単価</th>
+                    <th>現在株価</th>
+                    <th>評価額</th>
+                    <th>株式損益</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${#lists.isEmpty(holdings)}">
+                    <td colspan="8">保有銘柄がありません。</td>
+                </tr>
+                <tr th:each="holding : ${holdings}">
+                    <td th:text="${holding.stock.name}">Tesla</td>
+                    <td th:text="${holding.stock.code}">TSLA</td>
+                    <td th:text="${holding.quantity}">100</td>
+                    <td th:text="${#numbers.formatDecimal(holding.averagePrice, 1, 'COMMA', 2, 'POINT')}">200.50</td>
+                    <td th:text="${holding.stock.current_price != null} ? ${#numbers.formatInteger(holding.stock.current_price, 3, 'COMMA')} : ' - '">300</td>
+                    <!-- Current Value: quantity * current_price -->
+                    <td th:with="currentValue=${holding.quantity * holding.stock.current_price}"
+                        th:text="${holding.stock.current_price != null} ? ${#numbers.formatInteger(currentValue, 3, 'COMMA')} : ' - '">30,000</td>
+                    <!-- Profit/Loss: (current_price - averagePrice) * quantity -->
+                    <td th:with="profit=${(holding.stock.current_price - holding.averagePrice) * holding.quantity}"
+                        th:text="${holding.stock.current_price != null} ? ${#numbers.formatDecimal(profit, 1, 'COMMA', 2, 'POINT')} : ' - '"
+                        th:style="${profit >= 0} ? 'color: green;' : 'color: red;'">
+                        +10,000.00
+                    </td>
+                    <td>
+                        <a th:href="@{/transaction/sell(holdingId=${holding.id})}">
+                            <button>売却</button>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

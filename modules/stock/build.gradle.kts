@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "2.2.0"
     kotlin("plugin.jpa") version "2.2.0" // デフォルトコンストラクタを設定することを回避する
+    kotlin("plugin.spring") version "2.2.0" // SpringのAOP機能のためにクラスをopenにする
     // id("org.springframework.boot") version "3.5.3"
     id("io.spring.dependency-management") version "1.1.7"
 }
@@ -38,4 +39,11 @@ dependencies {
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21 // Java Versionを指定
+}
+
+allOpen {
+    annotation("org.springframework.stereotype.Component")
+    annotation("org.springframework.stereotype.Service")
+    annotation("org.springframework.stereotype.Repository")
+    annotation("org.springframework.transaction.annotation.Transactional")
 }
