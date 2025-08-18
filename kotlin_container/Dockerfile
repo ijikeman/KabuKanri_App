@@ -1,35 +1,32 @@
-FROM openjdk:21-slim-bookworm
+FROM mcr.microsoft.com/devcontainers/base:ubuntu-22.04
 
-# Kotlinのバージョンを指定
-ENV KOTLIN_VERSION=2.2.0
-ENV GRADLE_VERSION=8.14.2
+ENV VERSION_GRADLE=8.14.2
+ENV VERSION_KOTLIN=2.0.10
 
-# 必要なツールをインストールし、KotlinコンパイラとGradleをセットアップ
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends wget unzip git vim openssh-client \
-    # Kotlin
-    && wget -q https://github.com/JetBrains/kotlin/releases/download/v$KOTLIN_VERSION/kotlin-compiler-$KOTLIN_VERSION.zip \
-    && unzip kotlin-compiler-$KOTLIN_VERSION.zip -d /opt \
-    && rm kotlin-compiler-$KOTLIN_VERSION.zip \
-    && ln -s /opt/kotlinc/bin/* /usr/local/bin/ \
-    # Gradle
-    && wget -q https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip \
-    && unzip gradle-$GRADLE_VERSION-bin.zip -d /opt \
-    && rm gradle-$GRADLE_VERSION-bin.zip \
-    && ln -s /opt/gradle-$GRADLE_VERSION/bin/gradle /usr/local/bin/gradle \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+# Install java-21
+RUN apt update && \
+apt install openjdk-21-jdk -y
+
+# appuserユーザーを作成し、作業ディレクトリの権限を変更
+RUN mkdir /workspace
+RUN useradd -m appuser && chown -R appuser:appuser /workspace
 
 # 作業ディレクトリ
 WORKDIR /workspace
 
-# デフォルトのコマンド
-# appuserユーザーを作成し、作業ディレクトリの権限を変更
-RUN useradd -m appuser && chown -R appuser:appuser /workspace
-
-# Install SQLite3
-RUN apt-get update && apt-get install -y sqlite3 libsqlite3-dev
-
 USER appuser
+
+# Install SDKMan
+RUN curl -s https://get.sdkman.io | bash
+
+# Install Gradle
+RUN bash -c " \
+    source \"$HOME/.sdkman/bin/sdkman-init.sh\" && \
+    sdk install gradle $VERSION_GRADLE"
+
+# Install Kotlin
+RUN bash -c " \
+    source \"$HOME/.sdkman/bin/sdkman-init.sh\" && \
+    sdk install kotlin $VERSION_KOTLIN"
 
 CMD ["gradle", "--version"]
