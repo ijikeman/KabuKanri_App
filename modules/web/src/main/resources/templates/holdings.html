@@ -26,7 +26,6 @@
     </form>
 
     <div th:if="${selectedOwnerId != null}">
-        <h2><span th:text="${owners.?[id == selectedOwnerId][0].name}">Owner</span>のポートフォリオ</h2>
         <a th:href="@{/transaction/buy(ownerId=${selectedOwnerId})}">
             <button>この所有者で株式を購入</button>
         </a>
