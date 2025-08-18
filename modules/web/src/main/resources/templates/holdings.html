@@ -6,8 +6,10 @@
 <body>
     <div style="display: flex; gap: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px; margin-bottom: 20px;">
         <a href="/stock">銘柄マスタ一覧</a>
+        <a href="/stock/register">銘柄登録</a>
         <a href="/owner">所有者一覧</a>
         <a href="/holdings">ポートフォリオ</a>
+        <a href="/transaction/buy">買い付け登録</a>
     </div>
     <h1>ポートフォリオ一覧</h1>
 
@@ -54,12 +56,12 @@
                     <td th:text="${#numbers.formatDecimal(holding.averagePrice, 1, 'COMMA', 2, 'POINT')}">200.50</td>
                     <td th:text="${holding.stock.current_price != null} ? ${#numbers.formatInteger(holding.stock.current_price, 3, 'COMMA')} : ' - '">300</td>
                     <!-- Current Value: quantity * current_price -->
-                    <td th:with="currentValue=${holding.quantity * holding.stock.current_price}"
+                    <td th:with="currentValue=${holding.stock.current_price != null ? holding.quantity * holding.stock.current_price : null}"
                         th:text="${holding.stock.current_price != null} ? ${#numbers.formatInteger(currentValue, 3, 'COMMA')} : ' - '">30,000</td>
                     <!-- Profit/Loss: (current_price - averagePrice) * quantity -->
-                    <td th:with="profit=${(holding.stock.current_price - holding.averagePrice) * holding.quantity}"
+                    <td th:with="profit=${holding.stock.current_price != null ? (holding.stock.current_price - holding.averagePrice) * holding.quantity : null}"
                         th:text="${holding.stock.current_price != null} ? ${#numbers.formatDecimal(profit, 1, 'COMMA', 2, 'POINT')} : ' - '"
-                        th:style="${profit >= 0} ? 'color: green;' : 'color: red;'">
+                        th:style="${profit != null and profit >= 0} ? 'color: green;' : (${profit != null} ? 'color: red;' : '')">
                         +10,000.00
                     </td>
                     <td>
