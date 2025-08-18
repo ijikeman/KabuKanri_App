@@ -117,7 +117,7 @@ class StockController(
 
     @GetMapping("/sector")
     fun sectorList(model: Model): String {
-        model.addAttribute("sectors", sectorService.findAll())
+        model.addAttribute("sectorList", sectorService.findAll())
         return "sector"
     }
 

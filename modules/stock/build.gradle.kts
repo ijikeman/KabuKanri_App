@@ -40,10 +40,3 @@ dependencies {
 java {
     sourceCompatibility = JavaVersion.VERSION_21 // Java Versionを指定
 }
-
-allOpen {
-    annotation("org.springframework.stereotype.Component")
-    annotation("org.springframework.stereotype.Service")
-    annotation("org.springframework.stereotype.Repository")
-    annotation("org.springframework.transaction.annotation.Transactional")
-}
