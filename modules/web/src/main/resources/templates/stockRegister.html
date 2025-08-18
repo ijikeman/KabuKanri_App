@@ -27,11 +27,8 @@
                 <input type="text" id="country" name="country" required />
             </div>
             <div>
-                <label for="sector_id">セクター名:</label>
-                <select id="sector_id" name="sector_id" required>
-                    <option value="">セクターを選択してください</option>
-                    <option th:each="sector : ${sectors}" th:value="${sector.id}" th:text="${sector.name}"></option>
-                </select>
+                <label for="sector_name">セクター名:</label>
+                <input type="text" id="sector_name" name="sector_name" required />
             </div>
             <input type="submit" value="登録" />
         </form>
