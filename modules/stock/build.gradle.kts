@@ -1,8 +1,9 @@
 plugins {
-    kotlin("jvm") version "2.2.0"
-    kotlin("plugin.jpa") version "2.2.0" // デフォルトコンストラクタを設定することを回避する
-    // id("org.springframework.boot") version "3.5.3"
-    id("io.spring.dependency-management") version "1.1.7"
+    kotlin("jvm")
+    kotlin("plugin.jpa") // デフォルトコンストラクタを設定することを回避する
+    kotlin("plugin.spring") // SpringのAOP機能のためにクラスをopenにする
+    // id("org.springframework.boot")
+    id("io.spring.dependency-management")
 }
 
 // group = "com.example"

@@ -1,7 +1,7 @@
 FROM openjdk:21-slim-bookworm
 
 # Kotlinのバージョンを指定
-ENV KOTLIN_VERSION=2.2.0
+ENV KOTLIN_VERSION=2.0.10
 ENV GRADLE_VERSION=8.14.2
 
 # 必要なツールをインストールし、KotlinコンパイラとGradleをセットアップ
