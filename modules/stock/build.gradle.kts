@@ -40,8 +40,3 @@ dependencies {
 java {
     sourceCompatibility = JavaVersion.VERSION_21 // Java Versionを指定
 }
-
-tasks.withType<Test> {
-    exclude("**/YahooFinanceProviderTest.class")
-    exclude("**/StockServiceTest.class")
-}
