@@ -19,7 +19,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa") // webでも使う
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-cache")
- 
+
     // KotlinでEntityを使う場合に推奨される依存関係
     // implementation("org.jetbrains.kotlin:kotlin-reflect") // webでは使わないため
 
@@ -28,7 +28,8 @@ dependencies {
     // implementation("org.springframework.boot:spring-boot-devtools")
 
     // 本番環境用: SQLite JDBCドライバ
-    runtimeOnly("org.xerial:sqlite-jdbc")
+    implementation("org.xerial:sqlite-jdbc:3.50.2.0")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc") // Spring JDBC Template/JdbcClientに必要
     implementation("org.hibernate.orm:hibernate-community-dialects")
     // 開発環境用: H2データベースドライバ
     runtimeOnly("com.h2database:h2")
