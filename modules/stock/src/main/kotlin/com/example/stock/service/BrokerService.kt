@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service
  * 証券会社（Broker）に関するビジネスロジックを管理するサービスクラス。
  */
 @Service
-class BrokerService(
+open class BrokerService(
     private val brokerRepository: BrokerRepository
 ) {
     /**
      * すべての証券会社情報を取得します。
      * @return 証券会社のリスト
      */
-    fun findAll(): List<Broker> {
+    open fun findAll(): List<Broker> {
         return brokerRepository.findAll()
     }
 
@@ -24,7 +24,7 @@ class BrokerService(
      * @param broker 保存する証券会社オブジェクト
      * @return 保存された証券会社オブジェクト
      */
-    fun save(broker: Broker): Broker {
+    open fun save(broker: Broker): Broker {
         return brokerRepository.save(broker)
     }
 }

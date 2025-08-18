@@ -5,16 +5,16 @@ import com.example.stock.repository.SectorRepository
 import org.springframework.stereotype.Service
 
 @Service
-class SectorService(private val sectorRepository: SectorRepository) {
-    fun findById(id: Int): Sector? {
+open class SectorService(private val sectorRepository: SectorRepository) {
+    open fun findById(id: Int): Sector? {
         return sectorRepository.findById(id).orElse(null)
     }
     
-    fun findAll(): List<Sector> {
+    open fun findAll(): List<Sector> {
         return sectorRepository.findAll()
     }
 
-    fun findByName(name: String): Sector? {
+    open fun findByName(name: String): Sector? {
         return sectorRepository.findByName(name)
     }
 }

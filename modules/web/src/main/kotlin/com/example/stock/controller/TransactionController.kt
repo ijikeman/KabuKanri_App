@@ -2,10 +2,10 @@ package com.example.stock.controller
 
 import com.example.stock.model.Transaction
 import com.example.stock.service.BrokerService
+import com.example.stock.service.HoldingsService
 import com.example.stock.service.OwnerService
 import com.example.stock.service.StockService
 import com.example.stock.service.TransactionService
-import com.example.stock.service.HoldingsService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -22,7 +22,7 @@ class TransactionController(
     private val ownerService: OwnerService,
     private val stockService: StockService,
     private val brokerService: BrokerService,
-    private val holdingsService: HoldingsService // holdingsRepositoryからholdingsServiceに変更
+    private val holdingsService: HoldingsService
 ) {
 
     /**

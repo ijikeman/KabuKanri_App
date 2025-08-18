@@ -12,7 +12,7 @@ import java.time.LocalDateTime
  * 取引（Transaction）に関するビジネスロジックを管理するサービスクラス。
  */
 @Service
-class TransactionService(
+open class TransactionService(
     private val transactionRepository: TransactionRepository,
     private val holdingsRepository: HoldingsRepository
 ) {
@@ -23,7 +23,7 @@ class TransactionService(
      * @param transaction 処理対象の取引オブジェクト
      */
     @Transactional
-    fun processTransaction(transaction: Transaction) {
+    open fun processTransaction(transaction: Transaction) {
         // 1. 新しい取引履歴をデータベースに保存
         transactionRepository.save(transaction)
 

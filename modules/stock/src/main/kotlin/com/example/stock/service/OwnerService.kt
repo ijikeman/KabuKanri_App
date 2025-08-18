@@ -5,12 +5,12 @@ import com.example.stock.repository.OwnerRepository
 import org.springframework.stereotype.Service
 
 @Service
-class OwnerService(private val ownerRepository: OwnerRepository) {
-    fun findAll(): List<Owner> {
+open class OwnerService(private val ownerRepository: OwnerRepository) {
+    open fun findAll(): List<Owner> {
         return ownerRepository.findAll()
     }
 
-    fun findByName(name: String): Owner? {
+    open fun findByName(name: String): Owner? {
         return ownerRepository.findByName(name)
     }
 
@@ -19,12 +19,12 @@ class OwnerService(private val ownerRepository: OwnerRepository) {
      * @param id 検索する所有者のID
      * @return 見つかった所有者。存在しない場合はnull。
      */
-    fun findById(id: Int): Owner? {
+    open fun findById(id: Int): Owner? {
         return ownerRepository.findById(id).orElse(null)
     }
 
     // 追加する
-    fun save(owner: Owner): Owner {
+    open fun save(owner: Owner): Owner {
         return ownerRepository.save(owner)
     }
 }

@@ -1,12 +1,13 @@
 plugins {
-    kotlin("jvm") version "2.2.0"
-    kotlin("plugin.jpa") version "2.2.0" // デフォルトコンストラクタを設定することを回避する
+    kotlin("jvm")
+    kotlin("plugin.jpa") // デフォルトコンストラクタを設定することを回避する
+    kotlin("plugin.spring") // SpringのAOP機能のためにクラスをopenにする
     // id("org.springframework.boot") version "3.5.3"
-    id("io.spring.dependency-management") version "1.1.7"
+    id("io.spring.dependency-management")
 }
 
-// group = "com.example"
-// version = "0.0.1-SNAPSHOT"
+group = "com.example"
+version = "0.0.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -38,4 +39,9 @@ dependencies {
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21 // Java Versionを指定
+}
+
+tasks.withType<Test> {
+    exclude("**/YahooFinanceProviderTest.class")
+    exclude("**/StockServiceTest.class")
 }

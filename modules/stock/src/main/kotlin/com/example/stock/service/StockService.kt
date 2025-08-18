@@ -9,28 +9,28 @@ import java.time.LocalDateTime
 import java.util.*
 
 @Service
-class StockService(
+open class StockService(
     private val stockRepository: StockRepository,
     private val yahooFinanceProvider: YahooFinanceProvider // ← 追加
 ) {
-    fun findById(id: Int): Stock? {
+    open fun findById(id: Int): Stock? {
         return stockRepository.findById(id).orElse(null)
     }
 
-    fun findAll(): List<Stock> {
+    open fun findAll(): List<Stock> {
         return stockRepository.findAll()
     }
 
-    fun findByCode(code: String): Stock? {
+    open fun findByCode(code: String): Stock? {
         return stockRepository.findByCode(code)
     }
 
-    fun findByName(name: String): Stock? {
+    open fun findByName(name: String): Stock? {
         return stockRepository.findByName(name)
     }
 
     // 追加する
-    fun save(stock: Stock): Stock {
+    open fun save(stock: Stock): Stock {
         return stockRepository.save(stock)
     }
 
@@ -40,7 +40,7 @@ class StockService(
      * @param id 更新する銘柄のID
      * @return 更新後の銘柄情報。銘柄が見つからない場合や情報取得に失敗した場合はnull。
      */
-    fun updateStockDetail(id: Int): Stock? {
+    open fun updateStockDetail(id: Int): Stock? {
         // IDで銘柄を検索
         val stockOptional = stockRepository.findById(id)
         if (!stockOptional.isPresent) {
@@ -71,13 +71,13 @@ class StockService(
      * 複数の銘柄情報を一度に更新します。
      * @param ids 更新する銘柄のIDリスト
      */
-    fun updateStockDetails(ids: List<Int>) {
+    open fun updateStockDetails(ids: List<Int>) {
         for (id in ids) {
             updateStockDetail(id)
         }
     }
 
-    fun deleteStock(id: Int) {
+    open fun deleteStock(id: Int) {
         stockRepository.deleteById(id)
     }
 }

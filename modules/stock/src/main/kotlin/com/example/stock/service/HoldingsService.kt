@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
  * 保有銘柄（Holdings）に関するビジネスロジックを管理するサービスクラス。
  */
 @Service
-class HoldingsService(
+open class HoldingsService(
     private val holdingsRepository: HoldingsRepository
 ) {
 
@@ -17,7 +17,7 @@ class HoldingsService(
      * @param ownerId 所有者のID
      * @return 保有銘柄のリスト
      */
-    fun getHoldingsForOwner(ownerId: Int): List<Holdings> {
+    open fun getHoldingsForOwner(ownerId: Int): List<Holdings> {
         return holdingsRepository.findByOwnerId(ownerId)
     }
 
@@ -26,7 +26,7 @@ class HoldingsService(
      * @param id 検索する保有銘柄のID
      * @return 見つかった保有銘柄。存在しない場合はnull。
      */
-    fun findById(id: Int): Holdings? {
+    open fun findById(id: Int): Holdings? {
         return holdingsRepository.findById(id).orElse(null)
     }
 }
