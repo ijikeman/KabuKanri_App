@@ -19,7 +19,7 @@
     <hr/>
 
     <h2>セクター一覧</h2>
-    <div th:if="${sectorList != null and not #lists.isEmpty(sectorList)}">
+    <div th:if="${sectors != null and not #lists.isEmpty(sectors)}">
         <table>
             <thead>
                 <tr>
@@ -28,14 +28,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="sector : ${sectorList}">
+                <tr th:each="sector : ${sectors}">
                     <td th:text="${sector.id}">1</td>
                     <td th:text="${sector.name}">IT</td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <div th:if="${sectorList == null or #lists.isEmpty(sectorList)}">
+    <div th:if="${sectors == null or #lists.isEmpty(sectors)}">
         <p>セクターはまだ登録されていません。</p>
     </div>
 </body>

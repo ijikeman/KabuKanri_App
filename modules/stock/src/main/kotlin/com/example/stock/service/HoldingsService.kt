@@ -20,4 +20,13 @@ class HoldingsService(
     fun getHoldingsForOwner(ownerId: Int): List<Holdings> {
         return holdingsRepository.findByOwnerId(ownerId)
     }
+
+    /**
+     * 保有IDに基づいて保有銘柄を検索します。
+     * @param id 検索する保有銘柄のID
+     * @return 見つかった保有銘柄。存在しない場合はnull。
+     */
+    fun findById(id: Int): Holdings? {
+        return holdingsRepository.findById(id).orElse(null)
+    }
 }

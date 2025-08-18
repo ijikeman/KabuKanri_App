@@ -4,6 +4,11 @@
     <title>株式購入</title>
 </head>
 <body>
+    <div style="display: flex; gap: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px; margin-bottom: 20px;">
+        <a href="/stock">銘柄マスタ一覧</a>
+        <a href="/owner">所有者一覧</a>
+        <a href="/holdings">ポートフォリオ</a>
+    </div>
     <h1>株式購入</h1>
 
     <form th:action="@{/transaction/buy}" method="post">

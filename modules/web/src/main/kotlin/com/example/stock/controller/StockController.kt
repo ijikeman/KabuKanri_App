@@ -17,9 +17,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
 class StockController(
-    private val ownerService: OwnerService, // ここでOwnerServiceをインジェクトします
-    private val stockService: StockService, // ここでStockServiceをインジェクトします
-    private val sectorService: SectorService, // ここでSectorServiceをインジェクトします
+    private val ownerService: OwnerService,
+    private val stockService: StockService,
+    private val sectorService: SectorService,
     private val brokerService: BrokerService
 ) {
     // 株式一覧ページを表示するメソッド
@@ -111,13 +111,13 @@ class StockController(
     @PostMapping("/broker")
     fun brokerRegister(@RequestParam name: String): String {
         val broker = Broker(name = name)
-        brokerService.save(broker) // BrokerService needs a save method
+        brokerService.save(broker)
         return "redirect:/broker"
     }
 
     @GetMapping("/sector")
     fun sectorList(model: Model): String {
-        model.addAttribute("sectorList", sectorService.findAll())
+        model.addAttribute("sectors", sectorService.findAll())
         return "sector"
     }
 

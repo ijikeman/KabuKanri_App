@@ -5,7 +5,7 @@ import com.example.stock.service.BrokerService
 import com.example.stock.service.OwnerService
 import com.example.stock.service.StockService
 import com.example.stock.service.TransactionService
-import com.example.stock.repository.HoldingsRepository
+import com.example.stock.service.HoldingsService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -22,7 +22,7 @@ class TransactionController(
     private val ownerService: OwnerService,
     private val stockService: StockService,
     private val brokerService: BrokerService,
-    private val holdingsRepository: HoldingsRepository // 売却フォームで保有情報を直接参照するために使用
+    private val holdingsService: HoldingsService // holdingsRepositoryからholdingsServiceに変更
 ) {
 
     /**
@@ -88,7 +88,7 @@ class TransactionController(
      */
     @GetMapping("/transaction/sell")
     fun showSellForm(@RequestParam holdingId: Int, model: Model): String {
-        val holding = holdingsRepository.findById(holdingId).orElseThrow { IllegalArgumentException("無効な保有IDです") }
+        val holding = holdingsService.findById(holdingId) ?: throw IllegalArgumentException("無効な保有IDです")
         model.addAttribute("holding", holding)
         model.addAttribute("brokers", brokerService.findAll())
         return "sell_form"
@@ -108,7 +108,7 @@ class TransactionController(
         @RequestParam transactionAt: LocalDate
     ): String {
         // 売却対象の保有情報を取得
-        val holding = holdingsRepository.findById(holdingId).orElseThrow { IllegalArgumentException("無効な保有IDです") }
+        val holding = holdingsService.findById(holdingId) ?: throw IllegalArgumentException("無効な保有IDです")
         val owner = holding.owner
         val stock = holding.stock
         val broker = brokerService.findAll().find { it.id == brokerId } ?: throw IllegalArgumentException("無効な証券会社IDです")
