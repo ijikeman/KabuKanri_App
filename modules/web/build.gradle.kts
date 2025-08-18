@@ -28,8 +28,7 @@ dependencies {
     // implementation("org.springframework.boot:spring-boot-devtools")
 
     // 本番環境用: SQLite JDBCドライバ
-    implementation("org.xerial:sqlite-jdbc:3.50.2.0")
-    implementation("org.springframework.boot:spring-boot-starter-jdbc") // Spring JDBC Template/JdbcClientに必要
+    runtimeOnly("org.xerial:sqlite-jdbc")
     implementation("org.hibernate.orm:hibernate-community-dialects")
     // 開発環境用: H2データベースドライバ
     runtimeOnly("com.h2database:h2")

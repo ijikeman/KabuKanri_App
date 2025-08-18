@@ -32,7 +32,8 @@ class StockController(
     }
     // 株式登録ページを表示するメソッド
     @GetMapping("/stock/register")
-    fun stockRegisterForm(): String {
+    fun stockRegisterForm(model: Model): String {
+        model.addAttribute("sectors", sectorService.findAll())
         // 株式登録フォームを表示するためのビュー名を返します。
         return "stockRegister"
     }
@@ -42,14 +43,14 @@ class StockController(
         @RequestParam code: String,
         @RequestParam name: String,
         @RequestParam country: String,
-        @RequestParam sector_name: String
+        @RequestParam sector_id: Int
     ): String {
     // 株式の登録処理を行います。
-        // sector_nameを使って、SectorServiceからセクターを取得します。
-        val sector = sectorService.findByName(sector_name)
+        // sector_idを使って、SectorServiceからセクターを取得します。
+        val sector = sectorService.findById(sector_id)
         if (sector == null) {
             // セクターが見つからない場合は、エラーメッセージを表示するか、適切な処理を行います。
-            throw IllegalArgumentException("Sector not found: $sector_name")
+            throw IllegalArgumentException("Sector not found: $sector_id")
         }
         // Stockオブジェクトを作成し、StockServiceを使って保存します        
         stockService.save(

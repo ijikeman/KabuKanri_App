@@ -37,4 +37,4 @@ COPY --from=builder /workspace/modules/web/build/libs/*.jar ./application.jar
 EXPOSE 8080
 
 # Run the application
-ENTRYPOINT ["java", "-jar", "./application.jar", "--spring.profiles.active=prod"]
+ENTRYPOINT ["java", "-jar", "./application.jar"]
