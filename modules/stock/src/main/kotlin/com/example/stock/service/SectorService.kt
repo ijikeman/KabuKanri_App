@@ -17,4 +17,8 @@ open class SectorService(private val sectorRepository: SectorRepository) {
     open fun findByName(name: String): Sector? {
         return sectorRepository.findByName(name)
     }
+
+    fun save(sector: Sector): Sector {
+        return sectorRepository.save(sector)
+    }
 }
