@@ -7,6 +7,8 @@ import com.example.stock.model.Stock
 import com.example.stock.model.Sector
 import com.example.stock.service.StockService
 import com.example.stock.service.SectorService
+import com.example.stock.service.BrokerService
+import com.example.stock.model.Broker
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -15,9 +17,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
 class StockController(
-    private val ownerService: OwnerService, // ここでOwnerServiceをインジェクトします
-    private val stockService: StockService, // ここでStockServiceをインジェクトします
-    private val sectorService: SectorService // ここでSectorServiceをインジェクトします
+    private val ownerService: OwnerService,
+    private val stockService: StockService,
+    private val sectorService: SectorService,
+    private val brokerService: BrokerService
 ) {
     // 株式一覧ページを表示するメソッド
     @GetMapping("/stock")
@@ -100,22 +103,28 @@ class StockController(
     }
 
     @GetMapping("/broker")
-    fun brokerList(): String {
+    fun brokerList(model: Model): String {
+        model.addAttribute("brokers", brokerService.findAll())
         return "broker"
     }
 
     @PostMapping("/broker")
-    fun brokerRegister(): String {
+    fun brokerRegister(@RequestParam name: String): String {
+        val broker = Broker(name = name)
+        brokerService.save(broker)
         return "redirect:/broker"
     }
 
     @GetMapping("/sector")
-    fun sectorList(): String {
+    fun sectorList(model: Model): String {
+        model.addAttribute("sectors", sectorService.findAll())
         return "sector"
     }
 
     @PostMapping("/sector")
-    fun sectorRegister(): String {
+    fun sectorRegister(@RequestParam name: String): String {
+        val sector = Sector(name = name)
+        sectorService.save(sector)
         return "redirect:/sector"
     }
 }

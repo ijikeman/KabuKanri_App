@@ -5,6 +5,11 @@
         <title>所有者リスト</title>
     </head>
     <body>
+        <div style="display: flex; gap: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px; margin-bottom: 20px;">
+            <a href="/stock">銘柄マスタ一覧</a>
+            <a href="/owner">所有者一覧</a>
+            <a href="/holdings">ポートフォリオ</a>
+        </div>
         <h1>所有者登録</h1>
         <!-- owner登録フォーム表示 -->
         <form th:action="@{/owner}" method="post">
