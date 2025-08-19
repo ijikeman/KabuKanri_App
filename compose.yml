@@ -1,7 +1,6 @@
-version: '3.8'
-
 services:
   app:
+    container_name: app
     build:
       context: .
       dockerfile: Dockerfile
@@ -11,7 +10,6 @@ services:
       - db:/app/data
     environment:
       - SPRING_PROFILES_ACTIVE=prod
-
 volumes:
   db:
     driver: local

@@ -28,10 +28,12 @@ dependencies {
     // implementation("org.springframework.boot:spring-boot-devtools")
 
     // 本番環境用: SQLite JDBCドライバ
-    runtimeOnly("org.xerial:sqlite-jdbc")
-    implementation("org.hibernate.orm:hibernate-community-dialects")
+    implementation("org.xerial:sqlite-jdbc:3.50.2.0") // SQLite JDBC Driver
+    // SQLite3に変わってmysqlに変更
+    runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
     // 開発環境用: H2データベースドライバ
     runtimeOnly("com.h2database:h2")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc") // Spring JDBC Template/JdbcClientに必要
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
