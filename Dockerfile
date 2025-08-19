@@ -28,6 +28,9 @@ WORKDIR /app
 
 # Create a non-root user
 RUN useradd -m -s /bin/bash appuser
+RUN mkdir -p /app/data
+RUN chown appuser:appuser /app/data
+
 USER appuser
 
 # Copy the executable JAR from the builder stage

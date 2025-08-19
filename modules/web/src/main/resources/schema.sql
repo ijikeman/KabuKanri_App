@@ -68,4 +68,4 @@ CREATE TABLE IF NOT EXISTS holdings (
     updated_at DATE, -- 最終更新日時
     FOREIGN KEY(owner_id) REFERENCES owner(id),
     FOREIGN KEY(stock_id) REFERENCES stock(id)
-)
+);
