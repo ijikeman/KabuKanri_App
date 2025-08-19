@@ -26,10 +26,10 @@ FROM eclipse-temurin:21-jre-jammy
 
 WORKDIR /app
 
-# Create a non-root user
-RUN useradd -m -s /bin/bash appuser
-RUN mkdir -p /app/data
-RUN chown appuser:appuser /app/data
+# Create /app/data directory and set permissions
+RUN useradd -m -s /bin/bash appuser \
+	&& mkdir -p /app/data \
+	&& chown appuser:appuser /app/data
 
 USER appuser
 
