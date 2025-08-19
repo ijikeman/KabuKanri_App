@@ -8,10 +8,10 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - db-data:/app
+      - db:/app/data
     environment:
       - SPRING_PROFILES_ACTIVE=prod
 
 volumes:
-  db-data:
+  db:
     driver: local
