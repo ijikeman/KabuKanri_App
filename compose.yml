@@ -9,35 +9,7 @@ services:
     volumes:
       - db:/app/data
     environment:
-      # アプリケーションがMariaDBに接続するための環境変数
       - SPRING_PROFILES_ACTIVE=prod
-      - SPRING_DATASOURCE_URL=jdbc:mariadb://db:3306/stock_db
-      - SPRING_DATASOURCE_USERNAME=user
-      - SPRING_DATASOURCE_PASSWORD=password
-    depends_on:
-      db:
-        condition: service_healthy # dbコンテナが"healthy"になるまで待機
-  
-  db:
-    container_name: db
-    image: mariadb:11.4
-    ports:
-      - "3306:3306"
-    volumes:
-      - mariadb-data:/var/lib/mysql
-    environment:
-      - MARIADB_DATABASE=stock_db
-      - MARIADB_USER=user
-      - MARIADB_PASSWORD=password
-      - MARIADB_ROOT_PASSWORD=root_password
-    healthcheck:
-      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "user", "-ppassword"] # ここを修正
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
 volumes:
   db:
-    driver: local
-  mariadb-data:
     driver: local
