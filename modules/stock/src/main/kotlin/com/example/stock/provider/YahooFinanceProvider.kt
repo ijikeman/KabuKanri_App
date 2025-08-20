@@ -45,25 +45,6 @@ class YahooFinanceProvider : FinanceProvider {
         }
     }
 
-    override fun fetchStockName(code: String, country: String): String? {
-        if (country.lowercase() != "jp") {
-            return null
-        }
-
-        return try {
-            val url = "$BASE_URL/$code.T"
-            val doc = Jsoup.connect(url).get()
-            extractName(doc)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
-    }
-
-    private fun extractName(doc: org.jsoup.nodes.Document): String? {
-        return doc.select("h2.PriceBoard__name__166W").first()?.text()
-    }
-
     /**
      * HTMLドキュメントから株価を抽出します。
      * @param doc JsoupでパースしたHTMLドキュメント

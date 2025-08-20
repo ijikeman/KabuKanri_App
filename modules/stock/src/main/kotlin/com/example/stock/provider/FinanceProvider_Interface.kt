@@ -9,6 +9,4 @@ interface FinanceProvider {
      * @return 現在の株価（取得できない場合は null）
      */
     fun fetchStockInfo(code: String, country: String): StockInfo?
-
-    fun fetchStockName(code: String, country: String): String?
 }

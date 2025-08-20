@@ -5,31 +5,18 @@ import com.example.stock.model.Stock
 import com.example.stock.model.Sector
 import com.example.stock.service.StockService
 import com.example.stock.service.SectorService
-import com.example.stock.provider.FinanceProvider
 import com.example.stock.model.Broker
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
 class StockController(
     private val stockService: StockService,
     private val sectorService: SectorService,
-    private val financeProvider: FinanceProvider,
 ) {
-    @GetMapping("/api/stock/name")
-    @ResponseBody
-    fun getStockName(
-        @RequestParam("code") code: String,
-        @RequestParam("country") country: String
-    ): Map<String, String> {
-        val stockName = financeProvider.fetchStockName(code, country)
-        return mapOf("name" to (stockName ?: ""))
-    }
-
     // 株式一覧ページを表示するメソッド
     @GetMapping("/stock")
     fun stockList(model: Model): String {
@@ -92,6 +79,12 @@ class StockController(
             // ここで株価更新のロジックを実装します。
             stockService.updateStockDetails(ids)
         }
+        return "redirect:/stock"
+    }
+    // 株式削除処理を行うメソッド
+    @PostMapping("/stock/delete")
+    fun deleteStock(@RequestParam id: Int): String {
+        stockService.deleteStock(id)
         return "redirect:/stock"
     }
 }

@@ -37,31 +37,5 @@
             </div>
             <input type="submit" value="登録" />
         </form>
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const codeInput = document.getElementById('code');
-                const countrySelect = document.getElementById('country');
-                const nameInput = document.getElementById('name');
-
-                const fetchStockName = () => {
-                    const code = codeInput.value;
-                    const country = countrySelect.value;
-
-                    if (code && country) {
-                        fetch(`/api/stock/name?code=${code}&country=${country}`)
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.name) {
-                                    nameInput.value = data.name;
-                                }
-                            })
-                            .catch(error => console.error('Error fetching stock name:', error));
-                    }
-                };
-
-                codeInput.addEventListener('change', fetchStockName);
-                countrySelect.addEventListener('change', fetchStockName);
-            });
-        </script>
     </body>
 </html>
