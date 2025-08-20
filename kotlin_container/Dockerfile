@@ -7,14 +7,10 @@ ENV VERSION_KOTLIN=2.0.10
 RUN apt update && \
 apt install openjdk-21-jdk -y
 
-# appuserユーザーを作成し、作業ディレクトリの権限を変更
-RUN mkdir /workspace
-RUN useradd -m appuser && chown -R appuser:appuser /workspace
-
 # 作業ディレクトリ
 WORKDIR /workspace
 
-USER appuser
+USER vscode
 
 # Install SDKMan
 RUN curl -s https://get.sdkman.io | bash

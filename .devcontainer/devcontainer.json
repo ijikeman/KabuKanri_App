@@ -6,9 +6,9 @@
 	},
 	"workspaceFolder": "/workspaces/KabuKanri_App",
 	"forwardPorts": [8080],
-	"remoteUser": "appuser",
+	"remoteUser": "vscode",
 	"mounts": [
-		"source=${localEnv:HOME}/.ssh,target=/home/appuser/.ssh,type=bind,consistency=cached"
+		"source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
 	],
 	"customizations": {
 		"vscode": {
