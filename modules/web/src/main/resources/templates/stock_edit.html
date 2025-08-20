@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="jp" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <title>銘柄編集</title>
+    </head>
+    <body>
+        <div th:replace="~{header :: header}"></div>
+        <h1>銘柄編集</h1>
+        <form th:action="@{/stock/edit}" method="post">
+            <input type="hidden" name="id" th:value="${stock.id}" />
+            <div>
+                <label for="code">銘柄コード:</label>
+                <input type="text" id="code" name="code" required th:value="${stock.code}" />
+            </div>
+            <div>
+                <label for="name">銘柄名:</label>
+                <input type="text" id="name" name="name" required th:value="${stock.name}" />
+            </div>
+            <div>
+                <label for="country">国:</label>
+                <select id="country" name="country" required>
+                    <option value="jp" th:selected="${stock.country == 'jp'}">jp</option>
+                    <option value="us" th:selected="${stock.country == 'us'}">us</option>
+                </select>
+            </div>
+            <div>
+                <label for="sector_id">セクター名:</label>
+                <select id="sector_id" name="sector_id" required>
+                    <option th:each="sector : ${sectors}" th:value="${sector.id}" th:text="${sector.name}" th:selected="${sector.id == stock.sector_id.id}"></option>
+                </select>
+            </div>
+            <input type="submit" value="更新" />
+        </form>
+      <div th:replace="~{footer :: footer}"></div>
+  </body>
+</html>

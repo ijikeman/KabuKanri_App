@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
+import org.springframework.web.bind.annotation.PathVariable
 
 @Controller
 class StockController(
@@ -99,6 +100,43 @@ class StockController(
     @PostMapping("/stock/delete")
     fun deleteStock(@RequestParam id: Int): String {
         stockService.deleteStock(id)
+        return "redirect:/stock"
+    }
+
+    // 株式編集ページを表示するメソッド
+    @GetMapping("/stock/edit/{id}")
+    fun editStockForm(@PathVariable id: Int, model: Model): String {
+        val stock = stockService.findById(id)
+        if (stock == null) {
+            // 銘柄が見つからない場合は、エラーページにリダイレクトするか、エラーメッセージを表示します。
+            return "redirect:/stock"
+        }
+        model.addAttribute("stock", stock)
+        model.addAttribute("sectors", sectorService.findAll())
+        return "stock_edit"
+    }
+
+    // 株式編集処理を行うメソッド
+    @PostMapping("/stock/edit")
+    fun editStock(
+        @RequestParam id: Int,
+        @RequestParam code: String,
+        @RequestParam name: String,
+        @RequestParam country: String,
+        @RequestParam sector_id: Int
+    ): String {
+        val sector = sectorService.findById(sector_id)
+        if (sector == null) {
+            throw IllegalArgumentException("Sector not found: $sector_id")
+        }
+        val stock = Stock(
+            id = id,
+            code = code,
+            name = name,
+            country = country,
+            sector_id = sector
+        )
+        stockService.save(stock)
         return "redirect:/stock"
     }
 }

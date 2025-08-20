@@ -25,7 +25,7 @@ dependencies {
 
     // `developmentOnly` を使うと、開発時(bootRun)のみ依存関係が追加されます
     // 開発時のホットリロードなどを有効にするDevTools
-    // implementation("org.springframework.boot:spring-boot-devtools")
+    implementation("org.springframework.boot:spring-boot-devtools")
 
     // 本番環境用: SQLite JDBCドライバ
     implementation("org.xerial:sqlite-jdbc:3.50.2.0") // SQLite JDBC Driver
