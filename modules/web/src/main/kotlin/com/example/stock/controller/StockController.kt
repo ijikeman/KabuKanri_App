@@ -23,14 +23,15 @@ class StockController(
         // ここで株式のデータを取得し、モデルに追加します。
         // 例えば、株式のリストを取得するサービスを呼び出す
         model.addAttribute("stock", stockService.findAll())
+        model.addAttribute("sectors", sectorService.findAll())
         return "stock"
     }
-    // 株式登録ページを表示するメソッド
-    @GetMapping("/stock/register")
-    fun stockRegisterForm(model: Model): String {
-        model.addAttribute("sectors", sectorService.findAll())
-        // 株式登録フォームを表示するためのビュー名を返します。
-        return "stockRegister"
+
+    // 株式削除処理を行うメソッド
+    @PostMapping("/stock/delete")
+    fun deleteStock(@RequestParam id: Int): String {
+        stockService.deleteStock(id)
+        return "redirect:/stock"
     }
     // 株式登録処理を行うメソッド
     @PostMapping("/stock/register")
