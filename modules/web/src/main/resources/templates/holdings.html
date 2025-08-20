@@ -35,8 +35,8 @@
         <table border="1">
             <thead>
                 <tr>
-                    <th>銘柄名</th>
                     <th>証券コード</th>
+                    <th>銘柄名</th>
                     <th>保有株数</th>
                     <th>平均取得単価</th>
                     <th>現在株価</th>
@@ -50,8 +50,8 @@
                     <td colspan="8">保有銘柄がありません。</td>
                 </tr>
                 <tr th:each="holding : ${holdings}">
-                    <td th:text="${holding.stock.name}">Tesla</td>
                     <td th:text="${holding.stock.code}">TSLA</td>
+                    <td th:text="${holding.stock.name}">Tesla</td>
                     <td th:text="${holding.quantity}">100</td>
                     <td th:text="${#numbers.formatDecimal(holding.averagePrice, 1, 'COMMA', 2, 'POINT')}">200.50</td>
                     <td th:text="${holding.stock.current_price != null} ? ${#numbers.formatInteger(holding.stock.current_price, 3, 'COMMA')} : ' - '">300</td>

@@ -1,13 +1,10 @@
 package com.example.stock.controller
 
-import com.example.stock.model.Owner
-import com.example.stock.service.OwnerService
 import org.springframework.stereotype.Controller
 import com.example.stock.model.Stock
 import com.example.stock.model.Sector
 import com.example.stock.service.StockService
 import com.example.stock.service.SectorService
-import com.example.stock.service.BrokerService
 import com.example.stock.model.Broker
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -17,10 +14,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
 class StockController(
-    private val ownerService: OwnerService,
     private val stockService: StockService,
     private val sectorService: SectorService,
-    private val brokerService: BrokerService
 ) {
     // 株式一覧ページを表示するメソッド
     @GetMapping("/stock")
@@ -85,47 +80,5 @@ class StockController(
             stockService.updateStockDetails(ids)
         }
         return "redirect:/stock"
-    }
-
-    // オーナー関連のメソッド
-    @GetMapping("/owner")
-    fun ownerList(model: Model): String {
-        val owner = ownerService.findAll()
-        model.addAttribute("owner", owner)
-        return "owner"
-    }
-
-    @PostMapping("/owner")
-    fun ownerRegister(@RequestParam name: String): String {
-        val owner = Owner(name = name)
-        ownerService.save(owner)
-        // 保存後、一覧画面にリダイレクトします。
-        return "redirect:/owner"
-    }
-
-    @GetMapping("/broker")
-    fun brokerList(model: Model): String {
-        model.addAttribute("brokers", brokerService.findAll())
-        return "broker"
-    }
-
-    @PostMapping("/broker")
-    fun brokerRegister(@RequestParam name: String): String {
-        val broker = Broker(name = name)
-        brokerService.save(broker)
-        return "redirect:/broker"
-    }
-
-    @GetMapping("/sector")
-    fun sectorList(model: Model): String {
-        model.addAttribute("sectors", sectorService.findAll())
-        return "sector"
-    }
-
-    @PostMapping("/sector")
-    fun sectorRegister(@RequestParam name: String): String {
-        val sector = Sector(name = name)
-        sectorService.save(sector)
-        return "redirect:/sector"
     }
 }
