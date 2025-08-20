@@ -23,6 +23,7 @@
                     <th>チェック</th>
                     <th>銘柄コード</th>
                     <th>銘柄名</th>
+                    <th>セクター名</th>
                     <th>国名</th>
                     <th>現在の株価</th>
                     <th>最新配当(円)</th>
@@ -33,13 +34,14 @@
             <tbody>
                 <!-- if emptyを使用して、銘柄がない場合のメッセージを表示 -->
                 <tr th:if="${#lists.isEmpty(stock)}">
-                    <td colspan="8">所有する銘柄がありません。</td>
+                    <td colspan="9">所有する銘柄がありません。</td>
                 </tr>
                 <!-- 銘柄データのループ -->
                 <tr th:each="stock : ${stock}">
                     <td><input type="checkbox" name="selectedIds" th:value="${stock.id}" /></td>
                     <td th:text="${stock.code}">7203</td>
                     <td th:text="${stock.name}">トヨタ自動車</td>
+                    <td th:text="${stock.sector_id.name}">情報・通信</td>
                     <td th:text="${stock.country}">jp</td>
                     <td th:text="${stock.current_price != null} ? ${#numbers.formatInteger(stock.current_price, 3, 'COMMA')} : ' - '">1,000</td>
                     <td th:text="${stock.latestDividend != null} ? ${#numbers.formatDecimal(stock.latestDividend, 1, 2)} : ' - '">95.00</td>
