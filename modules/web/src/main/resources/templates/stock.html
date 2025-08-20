@@ -35,7 +35,7 @@
             <tbody>
                 <!-- if emptyを使用して、銘柄がない場合のメッセージを表示 -->
                 <tr th:if="${#lists.isEmpty(stock)}">
-                    <td colspan="9">所有する銘柄がありません。</td>
+                    <td colspan="10">所有する銘柄がありません。</td>
                 </tr>
                 <!-- 銘柄データのループ -->
                 <tr th:each="stock : ${stock}">
