@@ -94,4 +94,11 @@ class StockController(
         }
         return "redirect:/stock"
     }
+
+    // 株式削除処理を行うメソッド
+    @PostMapping("/stock/delete")
+    fun deleteStock(@RequestParam id: Int): String {
+        stockService.deleteStock(id)
+        return "redirect:/stock"
+    }
 }
