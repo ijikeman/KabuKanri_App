@@ -24,11 +24,16 @@
             </div>
             <div>
                 <label for="country">国:</label>
-                <input type="text" id="country" name="country" required />
+                <select id="country" name="country" required>
+                    <option value="jp">jp</option>
+                    <option value="us">us</option>
+                </select>
             </div>
             <div>
-                <label for="sector_name">セクター名:</label>
-                <input type="text" id="sector_name" name="sector_name" required />
+                <label for="sector_id">セクター名:</label>
+                <select id="sector_id" name="sector_id" required>
+                    <option th:each="sector : ${sectors}" th:value="${sector.id}" th:text="${sector.name}"></option>
+                </select>
             </div>
             <input type="submit" value="登録" />
         </form>
