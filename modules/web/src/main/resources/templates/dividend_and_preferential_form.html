@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="jp" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <title>配当・優待登録</title>
+    </head>
+    <body>
+        <div th:replace="~{header :: header}"></div>
+        <h1>配当・優待登録</h1>
+
+        <form id="ownerForm" th:action="@{/dividend-and-preferential/register}" method="get">
+            <label for="ownerId">所有者:</label>
+            <select id="ownerId" name="ownerId" onchange="document.getElementById('ownerForm').submit();">
+                <option value="">選択してください</option>
+                <option th:each="owner : ${owners}" th:value="${owner.id}" th:text="${owner.name}" th:selected="${owner.id == selectedOwnerId}"></option>
+            </select>
+        </form>
+
+        <form th:if="${selectedOwnerId != null}" th:action="@{/dividend-and-preferential/register}" method="post">
+            <input type="hidden" name="ownerId" th:value="${selectedOwnerId}" />
+            <div>
+                <label for="holdingId">銘柄:</label>
+                <select id="holdingId" name="holdingId" required>
+                    <option th:each="holding : ${holdings}" th:value="${holding.id}" th:text="${holding.stock.name}"></option>
+                </select>
+            </div>
+            <div>
+                <label for="dividendPrice">配当・優待金額:</label>
+                <input type="number" id="dividendPrice" name="dividendPrice" required />
+            </div>
+            <div>
+                <label for="fee">手数料:</label>
+                <input type="number" id="fee" name="fee" required />
+            </div>
+            <div>
+                <label for="transactionAt">受け取り日:</label>
+                <input type="date" id="transactionAt" name="transactionAt" required />
+            </div>
+            <input type="submit" value="登録" />
+        </form>
+        <div th:replace="~{footer :: footer}"></div>
+  </body>
+</html>
