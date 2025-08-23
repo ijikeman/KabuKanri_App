@@ -8,6 +8,7 @@ services:
       - db:/app/data
     environment:
       - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_SQL_INIT_MODE=never
 
   nginx:
     image: nginx:latest
