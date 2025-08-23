@@ -48,10 +48,7 @@
                         <a th:href="@{/stock/edit/{id}(id=${stock.id})}">編集</a>
                     </td>
                     <td>
-                        <form th:action="@{/stock/delete}" method="post" onsubmit="return confirm('本当に削除しますか？');">
-                            <input type="hidden" name="id" th:value="${stock.id}" />
-                            <input type="submit" value="削除" />
-                        </form>
+                        <a href="#" th:onclick="'javascript:deleteStock(' + ${stock.id} + '); return false;'">削除</a>
                     </td>
                 </tr>
             </tbody>
@@ -64,6 +61,23 @@
             checkboxes = document.getElementsByName('selectedIds');
             for (var i = 0, n = checkboxes.length; i < n; i++) {
                 checkboxes[i].checked = source.checked;
+            }
+        }
+
+        function deleteStock(stockId) {
+            if (confirm('本当に削除しますか？')) {
+                var form = document.createElement('form');
+                form.method = 'post';
+                form.action = /*[[@{/stock/delete}]]*/ '/stock/delete';
+
+                var idInput = document.createElement('input');
+                idInput.type = 'hidden';
+                idInput.name = 'id';
+                idInput.value = stockId;
+                form.appendChild(idInput);
+
+                document.body.appendChild(form);
+                form.submit();
             }
         }
     </script>
