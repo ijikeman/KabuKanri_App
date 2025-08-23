@@ -42,36 +42,10 @@ class StockController(
     // 株式登録ページを表示するメソッド
     @GetMapping("/stock/register")
     fun stockRegisterForm(model: Model): String {
+        model.addAttribute("stock", Stock(code = "", name = "", country = "jp", sector_id = Sector(id = 0, "")))
         model.addAttribute("sectors", sectorService.findAll())
         // 株式登録フォームを表示するためのビュー名を返します。
-        return "stockRegister"
-    }
-    // 株式登録処理を行うメソッド
-    @PostMapping("/stock/register")
-    fun stockRegister(
-        @RequestParam code: String,
-        @RequestParam name: String,
-        @RequestParam country: String,
-        @RequestParam sector_id: Int
-    ): String {
-    // 株式の登録処理を行います。
-        // sector_idを使って、SectorServiceからセクターを取得します。
-        val sector = sectorService.findById(sector_id)
-        if (sector == null) {
-            // セクターが見つからない場合は、エラーメッセージを表示するか、適切な処理を行います。
-            throw IllegalArgumentException("Sector not found: $sector_id")
-        }
-        // Stockオブジェクトを作成し、StockServiceを使って保存します        
-        stockService.save(
-            Stock(
-                code = code,
-                name = name,
-                country = country,
-                sector_id = sector
-            )
-        )
-        // 保存後、株式一覧画面にリダイレクトします。
-        return "redirect:/stock"
+        return "stock_edit"
     }
 
     // 株式更新ページを表示するメソッド
@@ -116,19 +90,18 @@ class StockController(
         return "stock_edit"
     }
 
-    // 株式編集処理を行うメソッド
-    @PostMapping("/stock/edit")
-    fun editStock(
-        @RequestParam id: Int,
-        @RequestParam code: String,
-        @RequestParam name: String,
-        @RequestParam country: String,
-        @RequestParam sector_id: Int
+    // 株式登録・編集処理を行うメソッド
+    @PostMapping("/stock/save")
+    fun saveStock(
+        @RequestParam(value = "id", defaultValue = "0") id: Int,
+        @RequestParam("code") code: String,
+        @RequestParam("name") name: String,
+        @RequestParam("country") country: String,
+        @RequestParam("sector_id.id") sectorId: Int
     ): String {
-        val sector = sectorService.findById(sector_id)
-        if (sector == null) {
-            throw IllegalArgumentException("Sector not found: $sector_id")
-        }
+        val sector = sectorService.findById(sectorId)
+            ?: throw IllegalArgumentException("Sector not found: $sectorId")
+
         val stock = Stock(
             id = id,
             code = code,
@@ -136,6 +109,7 @@ class StockController(
             country = country,
             sector_id = sector
         )
+
         stockService.save(stock)
         return "redirect:/stock"
     }
