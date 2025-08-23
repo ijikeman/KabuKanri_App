@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="jp" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <title>配当・優待一覧</title>
+    </head>
+    <body>
+        <div th:replace="~{header :: header}"></div>
+        <h1>配当・優待一覧</h1>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>銘柄名</th>
+                    <th>配当・優待金額</th>
+                    <th>手数料</th>
+                    <th>受け取り日</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${#lists.isEmpty(dividendAndPreferentials)}">
+                    <td colspan="4">登録された配当・優待がありません。</td>
+                </tr>
+                <tr th:each="item : ${dividendAndPreferentials}">
+                    <td th:text="${item.stock.name}"></td>
+                    <td th:text="${#numbers.formatInteger(item.dividendPrice, 3, 'COMMA')}"></td>
+                    <td th:text="${#numbers.formatInteger(item.fee, 3, 'COMMA')}"></td>
+                    <td th:text="${#temporals.format(item.transactionAt, 'yyyy/MM/dd')}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div th:replace="~{footer :: footer}"></div>
+  </body>
+</html>
