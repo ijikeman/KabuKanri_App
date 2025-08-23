@@ -75,5 +75,5 @@ INSERT INTO stock(code, name, country, current_price, latest_dividend, earnings_
 ('4481', 'ベース', 'jp', NULL, NULL, NULL, NULL, 20),
 ('3993', 'PKSHA Technorogy', 'jp', NULL, NULL, NULL, NULL, 20),
 ('4071', 'プラスアルファコンサルティング', 'jp', NULL, NULL, NULL, NULL, 20),
-('2432', 'DeNa', 'jp', NULL, NULL, NULL, NULL, 20);
+('2432', 'DeNa', 'jp', NULL, NULL, NULL, NULL, 20),
 ('3923', 'ラクス', 'jp', NULL, NULL, NULL, NULL, 20);
