@@ -53,7 +53,7 @@ INSERT INTO sector(name) VALUES
 -- 銘柄
 INSERT INTO stock(code, name, country, current_price, latest_dividend, earnings_date, last_updated, sector_id) VALUES
 ('9142', '九州旅客鉄道', 'jp', NULL, NULL, NULL, NULL, 25),
-('3563', 'ＦＯＯＤ ＆ ＬＩＦＥ ＣＯＭＰＡＮＩＥＳ', 'jp', NULL, NULL, NULL, NULL, 22),
+('3563', 'FOOD & LIFE COMPANIES', 'jp', NULL, NULL, NULL, NULL, 22),
 ('9434', 'ソフトバンク', 'jp', NULL, NULL, NULL, NULL, 20),
 ('4765', 'ＳＢＩグローバルアセットマネジメント', 'jp', NULL, NULL, NULL, NULL, 20),
 ('8473', 'ＳＢＩホールディングス', 'jp', NULL, NULL, NULL, NULL, 20),
@@ -61,18 +61,19 @@ INSERT INTO stock(code, name, country, current_price, latest_dividend, earnings_
 ('2193', 'クックパッド', 'jp', NULL, NULL, NULL, NULL, 20),
 ('3548', 'バロックジャパンリミテッド', 'jp', NULL, NULL, NULL, NULL, 20),
 ('9201', '日本航空', 'jp', NULL, NULL, NULL, NULL, 20),
-('5621', 'ヒューマン・アソシエイツ・ホールディングス', 'jp', NULL, NULL, NULL, NULL, 20),
+('5621', 'ヒューマンテクノロジーズ', 'jp', NULL, NULL, NULL, NULL, 20),
 ('4704', 'トレンドマイクロ', 'jp', NULL, NULL, NULL, NULL, 20),
 ('9449', 'ＧＭＯインターネットグループ', 'jp', NULL, NULL, NULL, NULL, 20),
-('4475', 'ＨＥＮＮＧＥ', 'jp', NULL, NULL, NULL, NULL, 20),
+('4475', 'HENNGE', 'jp', NULL, NULL, NULL, NULL, 20),
 ('9702', 'アイ・エス・ビー', 'jp', NULL, NULL, NULL, NULL, 20),
 ('3837', 'アドソル日進', 'jp', NULL, NULL, NULL, NULL, 20),
 ('6458', '新晃工業', 'jp', NULL, NULL, NULL, NULL, 20),
 ('8002', '丸紅', 'jp', NULL, NULL, NULL, NULL, 20),
 ('9757', '船井総研ホールディングス', 'jp', NULL, NULL, NULL, NULL, 20),
-('7374', 'ＣＶＣ', 'jp', NULL, NULL, NULL, NULL, 20),
+('7374', 'コンフィデンス・インターワークス', 'jp', NULL, NULL, NULL, NULL, 20),
 ('9765', 'オオバ', 'jp', NULL, NULL, NULL, NULL, 20),
 ('4481', 'ベース', 'jp', NULL, NULL, NULL, NULL, 20),
-('3993', 'ＰＫＳＨＡ　Ｔｅｃｈｎｏｌｏｇｙ', 'jp', NULL, NULL, NULL, NULL, 20),
-('4071', 'ＰＡコンサルティング', 'jp', NULL, NULL, NULL, NULL, 20),
+('3993', 'PKSHA Technorogy', 'jp', NULL, NULL, NULL, NULL, 20),
+('4071', 'プラスアルファコンサルティング', 'jp', NULL, NULL, NULL, NULL, 20),
+('2432', 'DeNa', 'jp', NULL, NULL, NULL, NULL, 20);
 ('3923', 'ラクス', 'jp', NULL, NULL, NULL, NULL, 20);
