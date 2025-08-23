@@ -38,5 +38,5 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21 // Java Versionを指定
+    sourceCompatibility = JavaVersion.VERSION_17 // Java Versionを指定
 }

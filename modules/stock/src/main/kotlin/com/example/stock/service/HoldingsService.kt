@@ -18,7 +18,7 @@ open class HoldingsService(
      * @return 保有銘柄のリスト
      */
     open fun getHoldingsForOwner(ownerId: Int): List<Holdings> {
-        return holdingsRepository.findByOwnerId(ownerId)
+        return holdingsRepository.findByOwnerId(ownerId).filter { it.quantity > 0 }
     }
 
     /**

@@ -7,11 +7,21 @@
     <body>
         <div th:replace="~{header :: header}"></div>
         <h1>配当・優待登録</h1>
-        <form th:action="@{/dividend-and-preferential/register}" method="post">
+
+        <form id="ownerForm" th:action="@{/dividend-and-preferential/register}" method="get">
+            <label for="ownerId">所有者:</label>
+            <select id="ownerId" name="ownerId" onchange="document.getElementById('ownerForm').submit();">
+                <option value="">選択してください</option>
+                <option th:each="owner : ${owners}" th:value="${owner.id}" th:text="${owner.name}" th:selected="${owner.id == selectedOwnerId}"></option>
+            </select>
+        </form>
+
+        <form th:if="${selectedOwnerId != null}" th:action="@{/dividend-and-preferential/register}" method="post">
+            <input type="hidden" name="ownerId" th:value="${selectedOwnerId}" />
             <div>
-                <label for="stockId">銘柄:</label>
-                <select id="stockId" name="stockId" required>
-                    <option th:each="stock : ${stocks}" th:value="${stock.id}" th:text="${stock.name}"></option>
+                <label for="holdingId">銘柄:</label>
+                <select id="holdingId" name="holdingId" required>
+                    <option th:each="holding : ${holdings}" th:value="${holding.id}" th:text="${holding.stock.name}"></option>
                 </select>
             </div>
             <div>
