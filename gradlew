@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #
-# Copyright © 2015-2021 the original authors.
+# Copyright 息 2015-2021 the original authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,10 +34,10 @@
 #       Busybox and similar reduced shells will NOT work, because this script
 #       requires all of these POSIX shell features:
 #         * functions;
-#         * expansions «$var», «${var}», «${var:-default}», «${var+SET}»,
-#           «${var#prefix}», «${var%suffix}», and «$( cmd )»;
-#         * compound commands having a testable exit status, especially «case»;
-#         * various built-in commands including «command», «set», and «ulimit».
+#         * expansions 束$var損, 束${var}損, 束${var:-default}損, 束${var+SET}損,
+#           束${var#prefix}損, 束${var%suffix}損, and 束$( cmd )損;
+#         * compound commands having a testable exit status, especially 束case損;
+#         * various built-in commands including 束command損, 束set損, and 束ulimit損.
 #
 #   Important for patching:
 #
