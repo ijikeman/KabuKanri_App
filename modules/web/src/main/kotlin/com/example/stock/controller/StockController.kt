@@ -98,18 +98,36 @@ class StockController(
         @RequestParam("code") code: String,
         @RequestParam("name") name: String,
         @RequestParam("country") country: String,
-        @RequestParam("sector_id.id") sectorId: Int
+        @RequestParam("sector_id.id") sectorId: Int,
+        @RequestParam("current_price", required = false) currentPrice: Double?,
+        @RequestParam("latestDividend", required = false) latestDividend: Double?
     ): String {
         val sector = sectorService.findById(sectorId)
             ?: throw IllegalArgumentException("Sector not found: $sectorId")
 
-        val stock = Stock(
-            id = id,
-            code = code,
-            name = name,
-            country = country,
-            sector_id = sector
-        )
+        val stock = if (id != 0) {
+            // IDがある場合は既存のエンティティを更新
+            val existingStock = stockService.findById(id)
+                ?: throw IllegalArgumentException("Invalid stock Id:$id")
+            existingStock.copy(
+                code = code,
+                name = name,
+                country = country,
+                sector_id = sector,
+                current_price = currentPrice,
+                latestDividend = latestDividend
+            )
+        } else {
+            // IDがない場合は新しいエンティティを作成
+            Stock(
+                code = code,
+                name = name,
+                country = country,
+                sector_id = sector,
+                current_price = currentPrice,
+                latestDividend = latestDividend
+            )
+        }
 
         stockService.save(stock)
         return "redirect:/stock"

@@ -30,6 +30,14 @@
                     <option th:each="sector : ${sectors}" th:value="${sector.id}" th:text="${sector.name}"></option>
                 </select>
             </div>
+            <div>
+                <label for="current_price">現在の株価:</label>
+                <input type="number" step="any" id="current_price" th:field="*{current_price}" />
+            </div>
+            <div>
+                <label for="latestDividend">最新配当(円):</label>
+                <input type="number" step="any" id="latestDividend" th:field="*{latestDividend}" />
+            </div>
             <input type="submit" th:value="${stock.id == null} ? '登録' : '更新'" />
         </form>
         <script>
