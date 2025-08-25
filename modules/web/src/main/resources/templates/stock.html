@@ -55,6 +55,7 @@
         </table>
         <input type="submit" value="選択した銘柄を更新" th:if="${not #lists.isEmpty(stock)}" />
     </form>
+    <a href="/stock/csv" th:if="${not #lists.isEmpty(stock)}">CSV形式でダウンロード</a>
     <div th:replace="~{footer :: footer}"></div>
     <script>
         function toggle(source) {
