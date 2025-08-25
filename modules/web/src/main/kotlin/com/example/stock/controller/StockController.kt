@@ -1,20 +1,21 @@
 package com.example.stock.controller
 
-import org.springframework.stereotype.Controller
-import com.example.stock.model.Stock
-import com.example.stock.model.Sector
-import com.example.stock.service.StockService
-import com.example.stock.service.SectorService
-import com.example.stock.provider.FinanceProvider
 import com.example.stock.model.Broker
+import com.example.stock.model.Sector
+import com.example.stock.model.Stock
+import com.example.stock.provider.FinanceProvider
+import com.example.stock.service.SectorService
+import com.example.stock.service.StockService
+import jakarta.servlet.http.HttpServletResponse
+import java.time.LocalDate
+import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
-import org.springframework.web.bind.annotation.PathVariable
-import jakarta.servlet.http.HttpServletResponse
 
 @Controller
 class StockController(
@@ -100,10 +101,17 @@ class StockController(
         @RequestParam("country") country: String,
         @RequestParam("sector_id.id") sectorId: Int,
         @RequestParam("current_price", required = false) currentPrice: Double?,
-        @RequestParam("latestDividend", required = false) latestDividend: Double?
+        @RequestParam("latestDividend", required = false) latestDividend: Double?,
+        @RequestParam("earningsDate", required = false) earningsDate: String?
     ): String {
         val sector = sectorService.findById(sectorId)
             ?: throw IllegalArgumentException("Sector not found: $sectorId")
+
+        val parsedEarningsDate = if (earningsDate.isNullOrBlank()) {
+            null
+        } else {
+            LocalDate.parse(earningsDate)
+        }
 
         val stock = if (id != 0) {
             // IDがある場合は既存のエンティティを更新
@@ -115,7 +123,8 @@ class StockController(
                 country = country,
                 sector_id = sector,
                 current_price = currentPrice,
-                latestDividend = latestDividend
+                latestDividend = latestDividend,
+                earningsDate = parsedEarningsDate
             )
         } else {
             // IDがない場合は新しいエンティティを作成
@@ -125,7 +134,8 @@ class StockController(
                 country = country,
                 sector_id = sector,
                 current_price = currentPrice,
-                latestDividend = latestDividend
+                latestDividend = latestDividend,
+                earningsDate = parsedEarningsDate
             )
         }
 

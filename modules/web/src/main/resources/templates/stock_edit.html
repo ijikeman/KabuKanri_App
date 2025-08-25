@@ -38,6 +38,10 @@
                 <label for="latestDividend">最新配当(円):</label>
                 <input type="number" step="any" id="latestDividend" th:field="*{latestDividend}" />
             </div>
+            <div>
+                <label for="earningsDate">業績発表日:</label>
+                <input type="date" id="earningsDate" th:field="*{earningsDate}" />
+            </div>
             <input type="submit" th:value="${stock.id == null} ? '登録' : '更新'" />
         </form>
         <script>
