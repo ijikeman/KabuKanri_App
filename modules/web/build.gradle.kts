@@ -10,6 +10,12 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17 // Java Versionを指定
 }
 
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
+
 // Spring Boot Webアプリに必要な依存関係を追加
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web") // SpringbootWebフレームワーク

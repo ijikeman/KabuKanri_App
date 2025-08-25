@@ -10,6 +10,12 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17 // Java Versionを指定
 }
 
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
+
 dependencies {
     // Webアプリケーション、JPAに必要な基本的な依存関係
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
