@@ -1,45 +1,38 @@
 package com.example.stock.provider
 
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.jsoup.Jsoup
 import org.springframework.stereotype.Component
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.regex.Pattern
 
 @Component
 class YahooFinanceProvider : FinanceProvider {
 
     companion object {
-        // Yahoo!ファイナンスのURL。{code}部分を銘柄コードに置換して使用する。
         private const val BASE_URL = "https://finance.yahoo.co.jp/quote"
+        private const val PRELOADED_STATE_PREFIX = "window.__PRELOADED_STATE__ = "
     }
 
-    /**
-     * 指定された銘柄コードの株価情報をYahoo!ファイナンスから取得します。
-     *
-     * @param code 銘柄コード
-     * @param country 国コード (現在は"jp"のみ対応)
-     * @return 取得した株価情報を含むStockInfoオブジェクト。対応していない国や情報取得に失敗した場合はnullを返す。
-     */
+    private val objectMapper = ObjectMapper()
+
     override fun fetchStockInfo(code: String, country: String): StockInfo? {
-        // 現在は日本の銘柄のみを対象とする
         if (country.lowercase() != "jp") {
             return null
         }
 
         return try {
-            // Jsoupを使用してWebサイトに接続し、HTMLドキュメントを取得
             val url = "$BASE_URL/$code.T"
             val doc = Jsoup.connect(url).get()
+            val preloadedState = getPreloadedState(doc)
 
-            // 各情報を抽出する
-            val price = extractPrice(doc)
-            val dividend = extractDividend(doc)
-            val earningsDate = extractEarningsDate(doc)
+            val price = extractPrice(preloadedState)
+            val dividend = extractDividend(preloadedState)
+            val earningsDate = extractEarningsDate(preloadedState)
 
             StockInfo(price, dividend, earningsDate)
         } catch (e: Exception) {
-            // 接続エラーやパースエラーが発生した場合はnullを返す
             e.printStackTrace()
             null
         }
@@ -53,53 +46,39 @@ class YahooFinanceProvider : FinanceProvider {
         return try {
             val url = "$BASE_URL/$code.T"
             val doc = Jsoup.connect(url).get()
-            extractName(doc)
+            val preloadedState = getPreloadedState(doc)
+            extractName(preloadedState)
         } catch (e: Exception) {
             e.printStackTrace()
             null
         }
     }
 
-    private fun extractName(doc: org.jsoup.nodes.Document): String? {
-        return doc.select("h2.PriceBoard__name__166W").first()?.text()
+    private fun getPreloadedState(doc: org.jsoup.nodes.Document): JsonNode? {
+        val scriptElements = doc.getElementsByTag("script")
+        val script = scriptElements.find { it.html().trim().startsWith(PRELOADED_STATE_PREFIX) }
+            ?: return null
+        val jsonText = script.html().trim().removePrefix(PRELOADED_STATE_PREFIX)
+        return objectMapper.readTree(jsonText)
     }
 
-    /**
-     * HTMLドキュメントから株価を抽出します。
-     * @param doc JsoupでパースしたHTMLドキュメント
-     * @return 抽出した株価。見つからない場合はnull。
-     */
-    private fun extractPrice(doc: org.jsoup.nodes.Document): Int? {
-        // 株価は `StyledNumber__value__3rXW` というCSSクラスを持つspan要素に含まれている
-        val priceText = doc.select(".StyledNumber__value__3rXW").first()?.text()
-        // "1,234"のようなカンマ区切りの数値をパースしてIntに変換
-        return priceText?.replace(",", "")?.toIntOrNull()
+    private fun extractName(jsonNode: JsonNode?): String? {
+        return jsonNode?.at("/mainStocksPriceBoard/priceBoard/name")?.asText()
     }
 
-    /**
-     * HTMLドキュメントから1株あたりの配当金を抽出します。
-     * @param doc JsoupでパースしたHTMLドキュメント
-     * @return 抽出した配当金。見つからない場合はnull。
-     */
-    private fun extractDividend(doc: org.jsoup.nodes.Document): Double? {
-        // "1株配当（会社予想）"というテキストを持つdt要素を探し、その次のdd要素から値を取得
-        val dividendElement = doc.select("dt:contains(1株配当（会社予想）)").first()?.nextElementSibling()
-        val dividendText = dividendElement?.text()
-        // "95.00円" のようなテキストから数値部分のみを抽出
-        return dividendText?.filter { it.isDigit() || it == '.' }?.toDoubleOrNull()
+    private fun extractPrice(jsonNode: JsonNode?): Double? {
+        return jsonNode?.at("/mainStocksPriceBoard/priceBoard/price")?.asDouble()
     }
 
-    /**
-     * HTMLドキュメントから次回の業績発表日を抽出します。
-     * @param doc JsoupでパースしたHTMLドキュメント
-     * @return 抽出した業績発表日。見つからない場合はnull。
-     */
-    private fun extractEarningsDate(doc: org.jsoup.nodes.Document): LocalDate? {
-        // "直近の決算発表日は" というテキストを含むp要素を探す
-        val earningsElement = doc.select("p:contains(直近の決算発表日は)").first()
-        val earningsText = earningsElement?.text() ?: return null
+    private fun extractDividend(jsonNode: JsonNode?): Double? {
+        // "dps" in referenceIndex seems to be "Dividend Per Share"
+        return jsonNode?.at("/mainStocksDetail/referenceIndex/dps")?.asText()?.toDoubleOrNull()
+    }
 
-        // "直近の決算発表日は2025年8月7日でした。" というテキストから日付を正規表現で抽出
+    private fun extractEarningsDate(jsonNode: JsonNode?): LocalDate? {
+        val earningsText = jsonNode?.at("/mainStocksPressReleaseSchedule/pressReleaseScheduleMessage")?.asText()
+            ?: return null
+
         val pattern = Pattern.compile("(\\d{4})年(\\d{1,2})月(\\d{1,2})日")
         val matcher = pattern.matcher(earningsText)
 

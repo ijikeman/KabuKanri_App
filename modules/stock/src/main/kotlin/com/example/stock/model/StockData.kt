@@ -39,7 +39,7 @@ data class Stock(
 
     @field:Min(0, message = "current_priceは0以上の数字である必要があります")
     @Column(name = "current_price")
-    val current_price: Int? = null,
+    val current_price: Double? = null,
 
     @Column(name = "latest_dividend")
     val latestDividend: Double? = null,
