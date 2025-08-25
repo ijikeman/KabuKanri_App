@@ -1,51 +1,42 @@
 plugins {
-    kotlin("jvm")
-    kotlin("plugin.jpa")
-    kotlin("plugin.spring")
-    id("org.springframework.boot")
-    id("io.spring.dependency-management")
-}
-
-group = "com.example"
-version = "0.0.1-SNAPSHOT"
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    // Webアプリケーション、JPAに必要な基本的な依存関係
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa") // webでも使う
-    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-    implementation("org.springframework.boot:spring-boot-starter-cache")
-
-    // KotlinでEntityを使う場合に推奨される依存関係
-    // implementation("org.jetbrains.kotlin:kotlin-reflect") // webでは使わないため
-
-    // `developmentOnly` を使うと、開発時(bootRun)のみ依存関係が追加されます
-    // 開発時のホットリロードなどを有効にするDevTools
-    implementation("org.springframework.boot:spring-boot-devtools")
-
-    // 本番環境用: SQLite JDBCドライバ
-    implementation("org.xerial:sqlite-jdbc:3.50.2.0") // SQLite JDBC Driver
-    // SQLite3に変わってmysqlに変更
-    runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
-    // 開発環境用: H2データベースドライバ
-    runtimeOnly("com.h2database:h2")
-    implementation("org.springframework.boot:spring-boot-starter-jdbc") // Spring JDBC Template/JdbcClientに必要
-
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
-    implementation(project(":modules:stock")) // stockを有効にする
+    kotlin("jvm") // Kotlin version
+    kotlin("plugin.spring") // Kotlin version
+    kotlin("plugin.jpa") // デフォルトコンストラクタを設定することを回避する
+    id("io.spring.dependency-management") // 親子モジュールで必要
+    id("org.springframework.boot") // implementationでspringframework.bootを使っている為、指定
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21 // Java Versionを指定
+    sourceCompatibility = JavaVersion.VERSION_17 // Java Versionを指定
 }
 
-// Spring Bootアプリケーションの起動クラスを指定し、stockモジュールのクラスをクラスパスに含める
-tasks.withType<org.springframework.boot.gradle.tasks.run.BootRun> {
+// Spring Boot Webアプリに必要な依存関係を追加
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-web") // SpringbootWebフレームワーク
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf") // Template Engine
+    implementation("org.springframework.boot:spring-boot-starter-cache") // ?
+
+    // 開発環境のみdevtoolを有効に
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    // データベース設定
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa") // webでも使う(DB(H2)が有効にならないので追加する必要あり)
+    implementation("org.springframework.boot:spring-boot-starter-jdbc") // Spring JDBC Template/JdbcClientに必要
+ 
+     // 開発環境用: H2データベースドライバ
+    runtimeOnly("com.h2database:h2")
+    // SQLite3に変わってmysqlに変更
+    runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
+
+    // webからsubmodule stockの機能を利用する為、読み込む
+    implementation(project(":modules:stock"))
+
+    // テスト
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
+}
+
+// マルチモジュール構成の為、class mainを指定する必要がある
+tasks.bootRun {
     mainClass.set("com.example.ApplicationKt")
-    sourceResources(project(":modules:stock").sourceSets.main.get())
 }

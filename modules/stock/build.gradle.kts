@@ -1,42 +1,35 @@
 plugins {
-    kotlin("jvm")
+    kotlin("jvm") // Kotlin version
+    kotlin("plugin.spring") // Kotlin version
     kotlin("plugin.jpa") // デフォルトコンストラクタを設定することを回避する
-    kotlin("plugin.spring") // SpringのAOP機能のためにクラスをopenにする
-    // id("org.springframework.boot") version "3.5.3"
-    id("io.spring.dependency-management")
+    id("io.spring.dependency-management") // 親子モジュールで必要
+    id("org.springframework.boot") // implementationでspringframework.bootを使っている為、指定
 }
 
-group = "com.example"
-version = "0.0.1-SNAPSHOT"
-
-repositories {
-    mavenCentral()
+java {
+    sourceCompatibility = JavaVersion.VERSION_17 // Java Versionを指定
 }
 
 dependencies {
     // Webアプリケーション、JPAに必要な基本的な依存関係
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+    // データベース関連
     implementation("org.xerial:sqlite-jdbc") // SQLite JDBC Driver 
     implementation("org.hibernate.orm:hibernate-community-dialects")
 
-    // OkHttp
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
-    // Jackson
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-
-    // KotlinでEntityを使う場合に推奨される依存関係
+    // Kotlin関連（重複を削除）
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springframework.boot:spring-boot-starter-validation") // バリデーション
+    
+    // JSON処理
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
-    // Jsoup for HTML parsing
-    implementation("org.jsoup:jsoup:1.17.2")
+    // HTML解析
+    implementation("org.jsoup:jsoup") // 親プロジェクトでバージョン管理する場合
 
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
-    testImplementation("io.mockk:mockk:1.13.12") 
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_21 // Java Versionを指定
+    testImplementation("io.mockk:mockk") // 親プロジェクトでバージョン管理
 }

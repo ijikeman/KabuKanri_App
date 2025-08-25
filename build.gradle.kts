@@ -1,28 +1,26 @@
 plugins {
-    kotlin("jvm") version "1.9.25" apply false
-    kotlin("plugin.jpa") version "1.9.25" apply false
-    kotlin("plugin.spring") version "1.9.25" apply false
+    kotlin("jvm") version "2.0.10" apply false
+    kotlin("plugin.jpa") version "2.0.10" apply false
+    kotlin("plugin.spring") version "2.0.10" apply false
     id("org.springframework.boot") version "3.5.3" apply false
     id("io.spring.dependency-management") version "1.1.7" apply false
 }
 
-// BOMを有効にしSubprojectのバージョン記載を回避する
-import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
 subprojects {
-    apply(plugin = "io.spring.dependency-management")
-    
-    configure<DependencyManagementExtension> {
-        imports {
-            mavenBom("org.springframework.boot:spring-boot-dependencies:3.5.3")
-        }
+    // Repository設定
+    repositories {
+        mavenCentral()
     }
+    
 
-    tasks.withType<Test> {
-        useJUnitPlatform()
-        testLogging {
-            events("started", "passed", "skipped", "failed")
-            showStandardStreams = true
-            exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+    // 親プロジェクト側でバージョン管理
+    // プラグインを適用
+    apply(plugin = "io.spring.dependency-management")   
+    // 依存関係管理の設定
+    configure<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension> {
+        dependencies {
+            dependency("org.jsoup:jsoup:1.17.2")
+            dependency("io.mockk:mockk:1.13.8")
         }
     }
 }
