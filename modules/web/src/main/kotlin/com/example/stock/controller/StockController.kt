@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import org.springframework.web.bind.annotation.PathVariable
-
+import jakarta.servlet.http.HttpServletResponse
 
 @Controller
 class StockController(
@@ -113,5 +113,18 @@ class StockController(
 
         stockService.save(stock)
         return "redirect:/stock"
+    }
+
+    @GetMapping("/stock/csv")
+    fun downloadCsv(response: HttpServletResponse) {
+        response.contentType = "text/csv"
+        response.characterEncoding = "UTF-8"
+        response.setHeader("Content-Disposition", "attachment; filename=\"stock.csv\"")
+
+        val csvData = stockService.generateCsvData()
+
+        response.writer.use { writer ->
+            writer.write(csvData)
+        }
     }
 }

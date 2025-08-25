@@ -80,4 +80,16 @@ open class StockService(
     open fun deleteStock(id: Int) {
         stockRepository.deleteById(id)
     }
+
+    open fun generateCsvData(): String {
+        val stocks = findAll()
+        val stringBuilder = StringBuilder()
+        // ヘッダー行
+        stringBuilder.append("銘柄コード,銘柄名,現在の株価\n")
+        // データ行
+        stocks.forEach { stock ->
+            stringBuilder.append("${stock.code},${stock.name},${stock.current_price ?: ""}\n")
+        }
+        return stringBuilder.toString()
+    }
 }
