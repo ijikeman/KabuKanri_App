@@ -1,4 +1,5 @@
 plugins {
+    // 親プロジェクトでGradleプラグインのバージョンを管理
     kotlin("jvm") version "2.0.10" apply false
     kotlin("plugin.jpa") version "2.0.10" apply false
     kotlin("plugin.spring") version "2.0.10" apply false
@@ -12,8 +13,7 @@ subprojects {
         mavenCentral()
     }
     
-
-    // 親プロジェクト側でバージョン管理
+    // 親プロジェクト側でライブラリのバージョン管理
     // プラグインを適用
     apply(plugin = "io.spring.dependency-management")   
     // 依存関係管理の設定
