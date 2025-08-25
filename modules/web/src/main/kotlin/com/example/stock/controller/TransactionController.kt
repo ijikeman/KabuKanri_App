@@ -1,9 +1,11 @@
 package com.example.stock.controller
 
+import com.example.stock.model.Stock
 import com.example.stock.model.Transaction
 import com.example.stock.service.BrokerService
 import com.example.stock.service.HoldingsService
 import com.example.stock.service.OwnerService
+import com.example.stock.service.SectorService
 import com.example.stock.service.StockService
 import com.example.stock.service.TransactionService
 import org.springframework.stereotype.Controller
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 /**
  * 株式の売買取引に関連するリクエストを処理するコントローラー。
@@ -22,7 +25,8 @@ class TransactionController(
     private val ownerService: OwnerService,
     private val stockService: StockService,
     private val brokerService: BrokerService,
-    private val holdingsService: HoldingsService
+    private val holdingsService: HoldingsService,
+    private val sectorService: SectorService
 ) {
 
     /**
@@ -37,6 +41,7 @@ class TransactionController(
         model.addAttribute("owners", ownerService.findAll())
         model.addAttribute("stocks", stockService.findAll())
         model.addAttribute("brokers", brokerService.findAll())
+        model.addAttribute("sectors", sectorService.findAll())
         if (ownerId != null) {
             model.addAttribute("selectedOwnerId", ownerId)
         }
@@ -50,17 +55,43 @@ class TransactionController(
     @PostMapping("/transaction/buy")
     fun processBuyTransaction(
         @RequestParam ownerId: Int,
-        @RequestParam stockId: Int,
+        @RequestParam(required = false) stockId: Int?,
         @RequestParam brokerId: Int,
         @RequestParam quantity: Int,
         @RequestParam pricePerShare: Int,
         @RequestParam fee: Int,
-        @RequestParam transactionAt: LocalDate
+        @RequestParam transactionAt: LocalDate,
+        @RequestParam(required = false) registerNewStock: String?,
+        @RequestParam(required = false) newStockCode: String?,
+        @RequestParam(required = false) newStockName: String?,
+        @RequestParam(required = false) newStockCountry: String?,
+        @RequestParam(required = false) newStockSectorId: Int?
     ): String {
-        // リクエストパラメータから関連エンティティを検索
         val owner = ownerService.findById(ownerId) ?: throw IllegalArgumentException("無効な所有者IDです")
-        val stock = stockService.findById(stockId) ?: throw IllegalArgumentException("無効な銘柄IDです")
         val broker = brokerService.findAll().find { it.id == brokerId } ?: throw IllegalArgumentException("無効な証券会社IDです")
+
+        val stock: Stock
+        if (registerNewStock == "on") {
+            // 新しい銘柄を登録
+            if (newStockCode.isNullOrBlank() || newStockName.isNullOrBlank() || newStockCountry.isNullOrBlank() || newStockSectorId == null) {
+                throw IllegalArgumentException("新しい銘柄の情報が不足しています")
+            }
+            val sector = sectorService.findById(newStockSectorId) ?: throw IllegalArgumentException("無効なセクターIDです")
+            val newStock = Stock(
+                code = newStockCode,
+                name = newStockName,
+                country = newStockCountry,
+                sector_id = sector,
+                lastUpdated = LocalDateTime.now()
+            )
+            stock = stockService.save(newStock)
+        } else {
+            // 既存の銘柄を選択
+            if (stockId == null) {
+                throw IllegalArgumentException("銘柄が選択されていません")
+            }
+            stock = stockService.findById(stockId) ?: throw IllegalArgumentException("無効な銘柄IDです")
+        }
 
         // 新しい購入取引オブジェクトを作成
         val transaction = Transaction(
