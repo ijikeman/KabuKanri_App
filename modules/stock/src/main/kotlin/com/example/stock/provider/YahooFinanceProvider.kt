@@ -3,12 +3,16 @@ package com.example.stock.provider
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.jsoup.Jsoup
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.time.LocalDate
 import java.util.regex.Pattern
 
 @Component
-class YahooFinanceProvider : FinanceProvider {
+class YahooFinanceProvider(
+    @Value("\${yahoo.finance.request.delay.millis:1000}")
+    private val requestDelayMillis: Long
+) : FinanceProvider {
 
     companion object {
         private const val BASE_URL = "https://finance.yahoo.co.jp/quote"
@@ -18,6 +22,8 @@ class YahooFinanceProvider : FinanceProvider {
     private val objectMapper = ObjectMapper()
 
     override fun fetchStockInfo(code: String, country: String): StockInfo? {
+        Thread.sleep(requestDelayMillis)
+
         if (country.lowercase() != "jp") {
             return null
         }
@@ -39,6 +45,8 @@ class YahooFinanceProvider : FinanceProvider {
     }
 
     override fun fetchStockName(code: String, country: String): String? {
+        Thread.sleep(requestDelayMillis)
+
         if (country.lowercase() != "jp") {
             return null
         }
