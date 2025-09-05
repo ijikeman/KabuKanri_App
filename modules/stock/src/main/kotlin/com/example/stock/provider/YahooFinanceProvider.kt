@@ -34,7 +34,7 @@ class YahooFinanceProvider(
             val preloadedState = getPreloadedState(doc)
 
             val price = extractPrice(preloadedState)
-            val dividend = extractDividend(preloadedState)
+            val dividend = extractDividend(preloadedState, doc)
             val earningsDate = extractEarningsDate(preloadedState)
 
             StockInfo(price, dividend, earningsDate)
@@ -78,9 +78,20 @@ class YahooFinanceProvider(
         return jsonNode?.at("/mainStocksPriceBoard/priceBoard/price")?.asDouble()
     }
 
-    private fun extractDividend(jsonNode: JsonNode?): Double? {
+    private fun extractDividend(jsonNode: JsonNode?, doc: org.jsoup.nodes.Document): Double? {
         // "dps" in referenceIndex seems to be "Dividend Per Share"
-        return jsonNode?.at("/mainStocksDetail/referenceIndex/dps")?.asText()?.toDoubleOrNull()
+        val fromJson = jsonNode?.at("/mainStocksDetail/referenceIndex/dps")?.asText()?.toDoubleOrNull()
+        if (fromJson != null) {
+            return fromJson
+        }
+        // Fallback to HTML parsing
+        return doc.select("dt")
+            .find { it.text().contains("1株配当") }
+            ?.nextElementSibling()
+            ?.selectFirst(".StyledNumber__value__3rXW")
+            ?.text()
+            ?.replace(",", "")
+            ?.toDoubleOrNull()
     }
 
     private fun extractEarningsDate(jsonNode: JsonNode?): LocalDate? {
