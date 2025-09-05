@@ -20,6 +20,13 @@
             </select>
         </div>
         <div>
+            <label>
+                <input type="checkbox" id="registerNewStock" name="registerNewStock" onchange="toggleStockFields()">
+                新しい銘柄を登録する
+            </label>
+        </div>
+
+        <div id="existingStockFields">
             <label for="stockId">銘柄:</label>
             <select id="stockId" name="stockId" required>
                 <option value="">-- 選択してください --</option>
@@ -28,6 +35,31 @@
                         th:text="${stock.name + ' (' + stock.code + ')'}">
                 </option>
             </select>
+        </div>
+
+        <div id="newStockFields" style="display: none;">
+            <div>
+                <label for="newStockCode">証券コード:</label>
+                <input type="text" id="newStockCode" name="newStockCode">
+            </div>
+            <div>
+                <label for="newStockName">銘柄名:</label>
+                <input type="text" id="newStockName" name="newStockName">
+            </div>
+            <div>
+                <label for="newStockCountry">国:</label>
+                <input type="text" id="newStockCountry" name="newStockCountry" placeholder="例: US, JP">
+            </div>
+            <div>
+                <label for="newStockSectorId">セクター:</label>
+                <select id="newStockSectorId" name="newStockSectorId">
+                    <option value="">-- 選択してください --</option>
+                    <option th:each="sector : ${sectors}"
+                            th:value="${sector.id}"
+                            th:text="${sector.name}">
+                    </option>
+                </select>
+            </div>
         </div>
         <div>
             <label for="brokerId">証券会社:</label>
@@ -62,5 +94,36 @@
 
     <p><a th:href="@{/holdings(ownerId=${selectedOwnerId})}">ポートフォリオに戻る</a></p>
     <div th:replace="~{footer :: footer}"></div>
+
+    <script>
+        function toggleStockFields() {
+            var registerNewStock = document.getElementById('registerNewStock');
+            var existingStockFields = document.getElementById('existingStockFields');
+            var newStockFields = document.getElementById('newStockFields');
+            var stockId = document.getElementById('stockId');
+            var newStockCode = document.getElementById('newStockCode');
+            var newStockName = document.getElementById('newStockName');
+            var newStockCountry = document.getElementById('newStockCountry');
+            var newStockSectorId = document.getElementById('newStockSectorId');
+
+            if (registerNewStock.checked) {
+                existingStockFields.style.display = 'none';
+                newStockFields.style.display = 'block';
+                stockId.required = false;
+                newStockCode.required = true;
+                newStockName.required = true;
+                newStockCountry.required = true;
+                newStockSectorId.required = true;
+            } else {
+                existingStockFields.style.display = 'block';
+                newStockFields.style.display = 'none';
+                stockId.required = true;
+                newStockCode.required = false;
+                newStockName.required = false;
+                newStockCountry.required = false;
+                newStockSectorId.required = false;
+            }
+        }
+    </script>
 </body>
 </html>
